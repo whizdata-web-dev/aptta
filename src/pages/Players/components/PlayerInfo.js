@@ -5,7 +5,6 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import ProfileImage from "../../../assets/img/team-1-800x800.jpg";
-import FetchData from "../../../assets/utils/FetchData";
 import { RequestData, urlConsts } from "../../../assets/utils/RequestData";
 import { useParams } from "react-router";
 
@@ -59,7 +58,7 @@ const PlayerInfo = () => {
       });
     }
     getData();
-  }, []);
+  }, []); // eslint-disable-line
 
   return (
     <main className='profile-page'>

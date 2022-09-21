@@ -3,7 +3,6 @@
  */
 import React, { useState } from "react";
 import OtpInput from "react-otp-input";
-import { useHistory } from "react-router-dom";
 import Payment from "./Payment";
 // import "./login/LoginStyles.css";
 import {
@@ -17,8 +16,6 @@ import {
 } from "@mui/material";
 
 const Password = (props) => {
-  const history = useHistory();
-
   // stated for OTP password confirm and phone number
   const [passwordReg, setPasswordReg] = useState([
     {
@@ -46,7 +43,6 @@ const Password = (props) => {
     //so that payment gateway if rendered
     // If any error - error message is displayed to user
     event.preventDefault();
-    console.log(passwordReg);
     String(passwordReg.password).length > 5 &&
     passwordReg.password === passwordReg.cPassword &&
     OTP === String(props.regValues.verifyCode)
@@ -75,7 +71,6 @@ const Password = (props) => {
 
   // handling user entered values in state
   const handleInputChange = (event) => {
-    console.log(passwordReg);
     setPasswordReg({
       ...passwordReg,
       [event.target.name]: event.target.value,
@@ -100,9 +95,9 @@ const Password = (props) => {
     <Grid
       container
       spacing={0}
-      direction="column"
-      alignItems="center"
-      justifyContent="center"
+      direction='column'
+      alignItems='center'
+      justifyContent='center'
       sx={{ zIndex: 50 }}
     >
       <CardContent>
@@ -142,7 +137,7 @@ const Password = (props) => {
                   // }
                   title={
                     <Typography
-                      variant="h4"
+                      variant='h4'
                       sx={{
                         marginLeft: "3rem",
                         fontSize: "2rem",
@@ -175,7 +170,7 @@ const Password = (props) => {
                   }}
                 >
                   <OtpInput
-                    id="paymentOTP"
+                    id='paymentOTP'
                     inputStyle={{
                       border: "1px solid transparent",
                       borderRadius: "8px",
@@ -194,23 +189,23 @@ const Password = (props) => {
 
               <Grid item xs={12} sm={12} md={12}>
                 <TextField
-                  type="password"
+                  type='password'
                   required
                   value={passwordReg.password}
-                  label="New Password"
+                  label='New Password'
                   sx={{ margin: "0.5rem 0" }}
-                  name="password"
+                  name='password'
                   onChange={handleInputChange}
                 />
               </Grid>
               <Grid item xs={12} sm={12} md={12}>
                 <TextField
-                  id="cPassword"
-                  name="cPassword"
-                  type="password"
+                  id='cPassword'
+                  name='cPassword'
+                  type='password'
                   required
                   value={passwordReg.cPassword}
-                  label="Confirm Password"
+                  label='Confirm Password'
                   sx={{ margin: "0.5rem 0" }}
                   onChange={handleInputChange}
                 />
@@ -231,17 +226,17 @@ const Password = (props) => {
                 )}
                 <Box sx={{ margin: "0.5rem 0" }}>
                   <button
-                    className="signup login-button"
-                    id="btnRegSubmit"
-                    type="submit"
+                    className='signup login-button'
+                    id='btnRegSubmit'
+                    type='submit'
                   >
                     Submit
                   </button>
                 </Box>
 
                 <Button
-                  className="signin"
-                  variant="text"
+                  className='signin'
+                  variant='text'
                   onClick={handleBackButton}
                   sx={{ margin: "0.5rem 0" }}
                 >

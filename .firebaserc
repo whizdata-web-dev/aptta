@@ -1,0 +1,17 @@
+{
+  "projects": {
+    "default": "andhrapradeshtta"
+  },
+  "targets": {
+    "andhrapradeshtta": {
+      "hosting": {
+        "build_development": [
+          "aptta-test"
+        ],
+        "build_production": [
+          "aptta"
+        ]
+      }
+    }
+  }
+}

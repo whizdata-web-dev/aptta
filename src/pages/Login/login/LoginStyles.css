@@ -2,6 +2,8 @@
 
 .loginroot {
   box-sizing: border-box;
+  margin-top: 0px;
+  padding: 2rem 0;
 }
 
 .btnShake {
@@ -50,6 +52,7 @@
   width: 100%;
 }
 .error {
+  width: 100%;
   animation: shake 0.2s;
   animation-iteration-count: 4;
   border-bottom: 1px solid orangered;

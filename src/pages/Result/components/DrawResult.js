@@ -6,7 +6,6 @@ import {
   Typography,
   Grid,
   Divider,
-  CardHeader,
 } from "@mui/material";
 import Avatar from "@mui/material/Avatar";
 import TrophyLogo from "../../../assets/img/trophy.png";
@@ -124,15 +123,15 @@ const DrawResult = (props) => {
                   }}
                 >
                   {/* Checking prps data for Player - 1 Name */}
-                  <Link
+                  {/* <Link
                     to={`/player/${
                       drawResponse.playersID
                         ? drawResponse.playersID.playerAId
                         : "playerId"
                     }`}
-                  >
-                    {playerA != "()" ? playerA : <>&nbsp;</>}
-                  </Link>
+                  > */}
+                    {playerA !== "()" ? playerA : <>&nbsp;</>}
+                  {/* </Link> */}
                 </Typography>
               </Grid>
               {/* Checking prps data for scores , displaying empty in 
@@ -233,15 +232,15 @@ const DrawResult = (props) => {
                     textOverflow: "ellipsis",
                   }}
                 >
-                  <Link
+                  {/* <Link
                     to={`/player/${
                       drawResponse.playersID
                         ? drawResponse.playersID.playerBId
                         : "playerId"
                     }`}
-                  >
-                    {playerB != "()" ? playerB : <>&nbsp;</>}
-                  </Link>
+                  > */}
+                    {playerB !== "()" ? playerB : <>&nbsp;</>}
+                  {/* </Link> */}
                 </Typography>
               </Grid>
               {/* Checking prps data for scores , displaying empty in 

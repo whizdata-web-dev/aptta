@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import { RequestData, urlConsts } from "../../assets/utils/RequestData";
 // import "./login/LoginStyles.css";
 import Password from "./Password";
@@ -28,11 +28,6 @@ const RegisterForm = ({
   errorMessage,
   setErrorMessage,
 }) => {
-  const [state, setState] = useState({
-    open: false,
-    vertical: "top",
-    horizontal: "center",
-  });
   // State for OTP code response
   const [verifyCode, setverifyCode] = useState("");
   // this is to send props as object to password component
@@ -44,7 +39,6 @@ const RegisterForm = ({
     dob,
     phoneNumber,
   };
-  const { vertical, horizontal, open } = state;
 
   const [disabled, setDisabled] = useState(false);
 
@@ -53,11 +47,6 @@ const RegisterForm = ({
       setDisabled(false);
     };
   }, []);
-
-  const ref = useRef();
-  const handleClick = (newState) => () => {
-    setState({ open: true, ...newState });
-  };
 
   // checking for DOB validation
   const checkDOB = (date) => {
@@ -80,7 +69,6 @@ const RegisterForm = ({
     )
       // Getting the Response object which holds the data of registration
       .then((response) => {
-
         //Checking weather response data is null
         if (response.result) {
           //checking email is valid
@@ -115,7 +103,7 @@ const RegisterForm = ({
   // on submit click validationg email address and age and calling api
   const validateUser = (event) => {
     event.preventDefault();
-  
+
     setDisabled(true);
     const pattern =
       /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@([a-z]+)+(?:\.[a-zA-Z0-9-]+)*$/;
@@ -137,11 +125,6 @@ const RegisterForm = ({
     }
   };
 
-  // for dob input field
-  const onFocusDOB = (e) => {
-    e.currentTarget.type = "date";
-    e.currentTarget.format = "dd/MM/yyyy";
-  };
   // This is to handle back click from pwd component
   const handleBackButton = () => {
     setverifyCode("");
@@ -150,34 +133,39 @@ const RegisterForm = ({
     <Grid
       container
       spacing={0}
-      direction="column"
-      alignItems="center"
-      justifyContent="center"
+      direction='column'
+      alignItems='center'
+      justifyContent='center'
       sx={{ zIndex: 50 }}
     >
       <CardContent
         sx={{
-          maxWidth: { sm: "40vw", md: "25vw", lg: "30vw" },
+          // maxWidth: { sm: "40vw", md: "25vw", lg: "40vw" },
+          width: "100%",
         }}
       >
         {/* checking OTP code is null */}
         {!verifyCode ? (
-          <Grid container spacing={{ xs: 0, md: 0 }}>
-            {/* On form submit calling submit method */}
-            <form onSubmit={validateUser} autoComplete="off">
+          <form onSubmit={validateUser} autoComplete='off'>
+            <Grid
+              container
+              spacing={{ xs: 0, md: 0 }}
+              sx={{ justifyContent: "center", alignItems: "center" }}
+            >
+              {/* On form submit calling submit method */}
               <Grid item xs={12} sm={12} md={12}>
                 <CardHeader
                   sx={{
-                    textAlign: "left",
+                    textAlign: "center",
                     padding: "0 0",
                   }}
                   title={
                     <Typography
-                      variant="h2"
+                      variant='h2'
                       sx={{
                         fontSize: "1.5rem",
                         margin: "0.5rem",
-                        // textTransform: "uppercase",
+                        textTransform: "uppercase",
                         fontWeight: 600,
                       }}
                     >
@@ -189,17 +177,18 @@ const RegisterForm = ({
               <Grid item xs={12} sm={12} md={12}>
                 <TextField
                   required
-                  type="email"
-                  variant="outlined"
+                  type='email'
+                  variant='outlined'
                   value={email}
                   className={
                     errorClass === "emailError" ? "error" : "textWidth"
                   }
                   // checking error for email if error then assigning to error animated
                   //class defined in css
-                  label="Email Address"
+                  label='Email Address'
                   sx={{
                     margin: "0.5rem 0",
+                    width: "100%",
                   }}
                   onChange={(event) => setEmail(event.target.value)}
                 />
@@ -207,11 +196,11 @@ const RegisterForm = ({
               <Grid item xs={12} sm={12} md={12}>
                 <TextField
                   required
-                  type="text"
-                  variant="outlined"
+                  type='text'
+                  variant='outlined'
                   value={firstName}
-                  label="First Name"
-                  className="textWidth"
+                  label='First Name'
+                  className='textWidth'
                   sx={{
                     margin: "0.5rem 0",
                   }}
@@ -222,23 +211,23 @@ const RegisterForm = ({
               </Grid>
               <Grid item xs={12} sm={12} md={12}>
                 <TextField
-                  type="text"
+                  type='text'
                   value={lastName}
-                  variant="outlined"
-                  label="Last Name"
+                  variant='outlined'
+                  label='Last Name'
                   onChange={(event) => {
                     setLastName(event.target.value);
                   }}
                   sx={{ margin: "0.5rem 0" }}
-                  className="textWidth"
+                  className='textWidth'
                 />
               </Grid>
               <Grid item xs={12} sm={12} md={12} sx={12}>
                 <TextField
                   required
-                  id="dob"
-                  label="Date of Birth"
-                  type="date"
+                  id='dob'
+                  label='Date of Birth'
+                  type='date'
                   value={dob}
                   sx={{ width: "100%", margin: "0.5rem 0" }}
                   InputLabelProps={{
@@ -251,18 +240,18 @@ const RegisterForm = ({
               <Grid item xs={12} sm={12} md={12}>
                 <TextField
                   required
-                  id="phone"
-                  maxLength="10"
-                  pattern="^\d{10}$"
+                  id='phone'
+                  maxLength='10'
+                  pattern='^\d{10}$'
                   InputProps={{
                     inputProps: { maxLength: "10" },
                   }}
-                  type="tel"
+                  type='tel'
                   value={phoneNumber}
-                  variant="outlined"
-                  label="Mobile Number"
+                  variant='outlined'
+                  label='Mobile Number'
                   sx={{ margin: "0.5rem 0" }}
-                  className="textWidth"
+                  className='textWidth'
                   onChange={(event) => {
                     setPhoneNumber(event.target.value);
                   }}
@@ -300,15 +289,15 @@ const RegisterForm = ({
                       texttransform: "uppercase",
                       transition: "transform 80ms ease-in",
                     }}
-                    className="signup login-button"
-                    type="submit"
+                    className='signup login-button'
+                    type='submit'
                   >
                     Next
                   </button>
                 </Box>
               </Grid>
-            </form>
-          </Grid>
+            </Grid>
+          </form>
         ) : (
           // if response for api for OTP is success then Payment component is rendered
           //here otp userid name and dob is sent as props

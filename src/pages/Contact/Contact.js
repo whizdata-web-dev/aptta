@@ -1,18 +1,19 @@
 import { useState } from "react";
-import { Box, Card, CardContent, Grid } from "@mui/material";
+import { Box } from "@mui/material";
 import ContactSecretory from "./contactSecretory/ContactSecretory";
-import ContactForm from "./contactForm/ContactForm";
 import Map from "./contactMap/Map";
 
 import { contactData } from "../../assets/utils/ContactData";
 
 export default function Contact() {
+  const [activeId, setActiveId] = useState(1);
   const [coordinates, setCoordinates] = useState({
-    lat: 12.9686628,
-    lng: 77.5925965,
+    lat: 16.513961,
+    lng: 80.612571,
   });
 
   const handleChange = (event) => {
+    setActiveId(event.id);
     setCoordinates({
       lat: event.latitude,
       lng: event.longitude,
@@ -22,7 +23,7 @@ export default function Contact() {
   return (
     <Box
       sx={{
-        padding: { md: "2rem 1rem" },
+        padding: { md: "5rem 1rem 1rem" },
         background: "#f6f5f7",
       }}
     >
@@ -36,6 +37,7 @@ export default function Contact() {
           </Box>
         </Box>
         <ContactSecretory
+          activeId={activeId}
           contactData={contactData}
           handleChange={handleChange}
         />

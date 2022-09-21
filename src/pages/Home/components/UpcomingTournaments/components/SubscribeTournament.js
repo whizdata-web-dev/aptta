@@ -56,13 +56,8 @@ function getStyles(name, eventName, theme) {
 
 const SubscribeTournament = ({ open, handleClose, getUser }) => {
   const theme = useTheme();
-  const fullScreen = useMediaQuery(theme.breakpoints.down("sm"));
+  const fullScreen = useMediaQuery(theme.breakpoints.down("xs"));
 
-  // constant states declared for api response
-  const [subscribeTournamentData, setSubscribeTournamentData] = useState({
-    events: [],
-    eventFees: [],
-  });
   const [events, setEvents] = useState([]);
   const [eventFees, setEventFees] = useState([]);
   const [subscribedEvents, setSubscribedEvents] = useState([]);
@@ -79,9 +74,7 @@ const SubscribeTournament = ({ open, handleClose, getUser }) => {
   const [checked, setChecked] = useState([]);
   let subData = [],
     unSubData = [];
-  const tournamentId = handleTournamentId.getTournId()
-    ? handleTournamentId.getTournId()
-    : "";
+  const tournamentId = handleTournamentId.getTournId();
   const Razorpay = useRazorpay();
 
   //razor pay for payment
@@ -144,11 +137,7 @@ const SubscribeTournament = ({ open, handleClose, getUser }) => {
       value.forEach((val, index) => {
         amountList += parseInt(eventFees[events.indexOf(val)]);
       });
-      console.log(events.filter((val) => !value.includes(val)));
       setTotalAmount(amountList);
-      // let ev = events.filter((val) => !value.includes(val));
-      // console.log(ev);
-      // setUnChecked(ev);
     } else {
       setMessage("Cannot select more than 3 events!");
     }
@@ -162,7 +151,7 @@ const SubscribeTournament = ({ open, handleClose, getUser }) => {
 
     setMessage("");
     events &&
-      events.map((eventName, index) => {
+      events.forEach((eventName, index) => {
         checked[index] === true
           ? (subData[index] = eventName)
           : (unSubData[index] = eventName);
@@ -176,12 +165,12 @@ const SubscribeTournament = ({ open, handleClose, getUser }) => {
         subscribeID: subData,
         unSubscribeID: unSubData,
         transactionID: transactionId,
-        transactionAmount: totalAmount,
+        transactionAmount: 100,
+        // transactionAmount: totalAmount,
         transactionType: "none",
         oldSubscribeID: [],
       },
     };
-    console.log(content);
     // Calling HTTP method by passing Api Type and Api URL and object params
     await RequestData("POST", "eventSubscription", content)
       // Getting the Response object which holds the data of Previous tournaments
@@ -209,8 +198,6 @@ const SubscribeTournament = ({ open, handleClose, getUser }) => {
   // using Axios GET method
 
   const getSubscribeTournamentList = async () => {
-    console.log(tournamentId);
-
     await RequestData(
       "GET",
       `eventListUnderTourn?caller=${urlConsts.caller}&apiKey=${urlConsts.apiKey}&tournamentId=${tournamentId}&userId=${getUser.userId}`
@@ -219,55 +206,80 @@ const SubscribeTournament = ({ open, handleClose, getUser }) => {
       .then((response) => {
         // Checking the response before changing the state
         if (response && response.result) {
-          console.log(response);
           setEventFees(response.result.eventFeeSettings.eventFees);
           setEvents(response.result.eventFeeSettings.events);
         } else {
           // error message in case of no response
-          setMessage("Something went wrong! Please try again later.");
+          setMessage("Failed to retrieve data. Please try again later");
         }
       })
       .catch((error) => {
-        console.log(error);
         // error in api call
         error.result && error.result.message
           ? setMessage(error.result.message)
-          : setMessage("Failed.Please try again later");
+          : setMessage("Something went wrong! Please try again later.");
       });
   };
 
   // This is for the integration of payment gateway using Rasor pay
   const handlePayment = async () => {
     let options = {};
-    if (totalAmount > 0) {
-      options = {
-        key: urlConsts.paymentKeyId, // ID from razor pay account
-        amount: totalAmount * 100, // total amount to pay
-        currency: "INR",
-        name: urlConsts.caller,
-        description: "Test Transaction",
-        image: ``,
-        handler: (response) => {
-          // On razor pay response setting transaction id using usestate
-          paySubscribtion(response.razorpay_payment_id);
-          // need to send transaction id to subscribe api
-        },
-        prefill: {
-          // name and email id passed as props from registration component
-          name: getUser.userName,
-          email: getUser.userId,
-          contact: getUser.phoneNumber,
-        },
-        notes: {
-          address: "Razorpay Corporate Office",
-        },
-        theme: {
-          color: "#332861",
-        },
-      };
-    } else {
-      setMessage("Select atleast one event to subscribe!");
-    }
+    options = {
+      key: urlConsts.paymentKeyId, // ID from razor pay account
+      amount: 100, // total amount to pay
+      // amount: totalAmount * 100, // total amount to pay
+      currency: "INR",
+      name: urlConsts.caller,
+      description: "Test Transaction",
+      image: ``,
+      handler: (response) => {
+        // On razor pay response setting transaction id using usestate
+        paySubscribtion(response.razorpay_payment_id);
+        // need to send transaction id to subscribe api
+      },
+      prefill: {
+        // name and email id passed as props from registration component
+        name: getUser.userName,
+        email: getUser.userId,
+        contact: getUser.phoneNumber,
+      },
+      notes: {
+        address: "Razorpay Corporate Office",
+      },
+      theme: {
+        color: "#332861",
+      },
+    };
+    // if (totalAmount > 0) {
+    //   options = {
+    //     key: urlConsts.paymentKeyId, // ID from razor pay account
+    //     amount: totalAmount * 100, // total amount to pay
+    //     // amount: totalAmount * 100, // total amount to pay
+    //     currency: "INR",
+    //     name: urlConsts.caller,
+    //     description: "Test Transaction",
+    //     image: ``,
+    //     handler: (response) => {
+    //       // On razor pay response setting transaction id using usestate
+    //       paySubscribtion(response.razorpay_payment_id);
+    //       // need to send transaction id to subscribe api
+    //     },
+    //     prefill: {
+    //       // name and email id passed as props from registration component
+    //       name: getUser.userName,
+    //       email: getUser.userId,
+    //       contact: getUser.phoneNumber,
+    //     },
+    //     notes: {
+    //       address: "Razorpay Corporate Office",
+    //     },
+    //     theme: {
+    //       color: "#332861",
+    //     },
+    //   };
+    // } else {
+    //   setMessage("Select atleast one event to subscribe!");
+    // }
     const rzp1 = new Razorpay(options);
     // On payment failure showing the issue to the user
     rzp1.on("Payment Failed", function (response) {
@@ -280,8 +292,9 @@ const SubscribeTournament = ({ open, handleClose, getUser }) => {
   useEffect(() => {
     let checks = [];
     const eventsSubscribed = subscribedEvents
-      .map((d, index) => {
+      .forEach((d, index) => {
         if (d != 0) {
+          // eslint-disable-line
           checks[index] = true;
           return events[index];
         } else {
@@ -297,18 +310,17 @@ const SubscribeTournament = ({ open, handleClose, getUser }) => {
       )
     );
     setChecked(checks);
-    console.log(tournamentId);
-    getSubscribeTournamentList();
-  }, [getUser && getUser._id && tournamentId]);
+    if (tournamentId && getUser._id) getSubscribeTournamentList();
+  }, [getUser && getUser._id && tournamentId]); // eslint-disable-line
 
   return (
     <Box>
       <Dialog
         fullScreen={fullScreen}
         open={open && open === "give"}
-        aria-labelledby="responsive-dialog-title"
+        aria-labelledby='responsive-dialog-title'
       >
-        <DialogTitle id="responsive-dialog-title">
+        <DialogTitle id='responsive-dialog-title'>
           Choose your events
           <Typography
             sx={{
@@ -317,25 +329,24 @@ const SubscribeTournament = ({ open, handleClose, getUser }) => {
           >
             {message}
           </Typography>
-          {/* : (<></>)} */}
         </DialogTitle>
 
         <DialogContent>
           <DialogContentText>
             <FormControl sx={{ m: 1, width: 300 }}>
-              <InputLabel id="demo-multiple-chip-label">
+              <InputLabel id='demo-multiple-chip-label'>
                 Select Events
               </InputLabel>
               <Select
-                labelId="demo-multiple-chip-label"
-                id="demo-multiple-chip"
+                labelId='demo-multiple-chip-label'
+                id='demo-multiple-chip'
                 multiple
                 value={eventName}
                 onChange={handleChange}
                 input={
                   <OutlinedInput
-                    id="select-multiple-chip"
-                    label="Select Events"
+                    id='select-multiple-chip'
+                    label='Select Events'
                   />
                 }
                 renderValue={(selected) => (
@@ -361,7 +372,7 @@ const SubscribeTournament = ({ open, handleClose, getUser }) => {
                     <Grid container>
                       <Box sx={{ float: "left" }}>{event}</Box>
                       <Box sx={{ flexGrow: 1 }}></Box>
-                      <Box sx={{ float: "right" }}>{eventFees[index]}</Box>
+                      <Box sx={{ float: "right" }}>₹{eventFees[index]}</Box>
                     </Grid>
                   </MenuItem>
                 ))}
@@ -371,10 +382,10 @@ const SubscribeTournament = ({ open, handleClose, getUser }) => {
               <TableHead>
                 <TableRow>
                   <TableCell>
-                    <Typography variant="h5">Event Name</Typography>
+                    <Typography variant='h5'>Event Name</Typography>
                   </TableCell>
                   <TableCell>
-                    <Typography variant="h5">Fee</Typography>
+                    <Typography variant='h5'>Fee</Typography>
                   </TableCell>
                 </TableRow>
               </TableHead>
@@ -425,7 +436,7 @@ const SubscribeTournament = ({ open, handleClose, getUser }) => {
           </Button>
           <Button
             autoFocus
-            variant="contained"
+            variant='contained'
             disabled={!totalAmount}
             onClick={handlePayment} //handling payment onclick by rendering razor pay
             sx={{ float: "right" }}

@@ -1,7 +1,7 @@
 export const ChartContainerModel = [
   {
-    id: "line-chart",
-    container: "w-full xl:w-4/12 mb-12 xl:mb-0 px-4",
+    id: "registered-chart",
+    container: "w-full xl:w-4/12 mb-4 xl:mb-0 px-4",
     classes: [
       "relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded bg-blueGray-700",
       "rounded-t mb-0 px-4 py-3 bg-transparent",
@@ -10,6 +10,8 @@ export const ChartContainerModel = [
       "p-4 flex-auto",
       "relative h-350-px",
     ],
+    heading: "# of active male, female",
+    subHeading: "Registered players",
     headingClasses: [
       "uppercase text-blueGray-400 mb-1 text-xs font-semibold",
       "text-blueGray-700 text-xl font-semibold",
@@ -18,28 +20,24 @@ export const ChartContainerModel = [
       type: "line",
       data: {
         labels: [
-          "January",
-          "February",
-          "March",
-          "April",
-          "May",
-          "June",
-          "July",
+          "2019",
+          "2020",
+          "2021",
         ],
         datasets: [
           {
-            label: new Date().getFullYear(),
+            label: "Male",
             backgroundColor: "#4c51bf",
             borderColor: "#4c51bf",
-            data: [65, 78, 66, 44, 56, 67, 75],
+            data: [10, 30, 60],
             fill: false,
           },
           {
-            label: new Date().getFullYear() - 1,
+            label: "Female",
             fill: false,
             backgroundColor: "#fff",
             borderColor: "#fff",
-            data: [40, 68, 86, 74, 56, 60, 87],
+            data: [5, 20, 50],
           },
         ],
       },
@@ -48,7 +46,7 @@ export const ChartContainerModel = [
         responsive: true,
         title: {
           display: false,
-          text: "Sales Charts",
+          text: "Registered Chart",
           fontColor: "white",
         },
         legend: {
@@ -75,7 +73,7 @@ export const ChartContainerModel = [
               display: true,
               scaleLabel: {
                 display: false,
-                labelString: "Month",
+                labelString: "Year",
                 fontColor: "white",
               },
               gridLines: {
@@ -116,7 +114,7 @@ export const ChartContainerModel = [
     },
   },
   {
-    id: "bar-chart",
+    id: "played-chart",
     container: "w-full xl:w-4/12 px-4",
     classes: [
       "relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded",
@@ -126,6 +124,8 @@ export const ChartContainerModel = [
       "p-4 flex-auto",
       "relative h-350-px",
     ],
+    heading: "# of total male, female",
+    subHeading: "Matches played so far",
     headingClasses: [
       "uppercase text-blueGray-400 mb-1 text-xs font-semibold",
       "text-white text-xl font-semibold",

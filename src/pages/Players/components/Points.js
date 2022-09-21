@@ -37,7 +37,7 @@ CircularProgressWithLabel.propTypes = {
 };
 
 export default function Points({ points, total }) {
-  const [progress, setProgress] = React.useState((points * 100) / total);
+  const progress = (points * 100) / total;
 
   return <CircularProgressWithLabel value={progress} points={points} />;
 }

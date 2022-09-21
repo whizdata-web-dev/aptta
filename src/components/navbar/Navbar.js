@@ -62,38 +62,41 @@ const Navbar = () => {
 
   return (
     <Box className={`navbar-root ${navbarStyle}`}>
-      <nav className="navbar navbar-expand-lg navbar-mainbg">
-        <Box className="navbar-brand navbar-logo">
-          <img src={Logo} alt="" height="50vh" style={{ margin: "-1rem 0" }} />
+      <nav className='navbar navbar-expand-lg navbar-mainbg'>
+        <Box className='navbar-brand navbar-logo'>
+          <img src={Logo} alt='' height='50vh' style={{ margin: "-1rem 0" }} />
         </Box>
 
         <button
-          className="navbar-toggler"
+          className='navbar-toggler'
           onClick={function () {
             setTimeout(function () {
               animation();
             });
           }}
-          type="button"
-          data-toggle="collapse"
-          data-target="#navbarSupportedContent"
-          aria-controls="navbarSupportedContent"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
+          type='button'
+          data-toggle='collapse'
+          data-target='#navbarSupportedContent'
+          aria-controls='navbarSupportedContent'
+          aria-expanded='false'
+          aria-label='Toggle navigation'
         >
-          <i className="fas fa-bars text-white"></i>
+          <i className='fas fa-bars text-white'></i>
         </button>
 
-        <Box className="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul className="navbar-nav ml-auto navbar_padding">
-            <Box className="hori-selector">
-              <Box className="left"></Box>
-              <Box className="right"></Box>
+        <Box className='collapse navbar-collapse' id='navbarSupportedContent'>
+          <ul className='navbar-nav ml-auto navbar_padding'>
+            <Box className='hori-selector'>
+              <Box className='left'></Box>
+              <Box className='right'></Box>
             </Box>
 
             <li
+              id='home'
               className={
-                curLocation === "home" || curLocation === "subscribeTournament"
+                curLocation === "home" ||
+                curLocation === "subscribeTournament" ||
+                curLocation === "entries"
                   ? "nav-item active"
                   : "nav-item"
               }
@@ -102,8 +105,8 @@ const Navbar = () => {
               }
             >
               <Link
-                className="nav-link"
-                to="/"
+                className='nav-link'
+                to='/'
                 style={{
                   display: "inline-flex",
                   alignItems: "center",
@@ -111,7 +114,7 @@ const Navbar = () => {
                 }}
               >
                 <span
-                  className="material-icons"
+                  className='material-icons'
                   style={{ fontSize: "1rem", margin: "0.5vh" }}
                 >
                   cottage
@@ -121,6 +124,7 @@ const Navbar = () => {
             </li>
 
             <li
+              id='about'
               className={
                 curLocation === "about" ? "nav-item active" : "nav-item"
               }
@@ -129,15 +133,15 @@ const Navbar = () => {
               }
             >
               <Link
-                className="nav-link"
-                to="/about"
+                className='nav-link'
+                to='/about'
                 style={{
                   display: "inline-flex",
                   alignItems: "center",
                   width: "100%",
                 }}
               >
-                <i className="far fa-address-book"></i>About
+                <i className='far fa-address-book'></i>About
               </Link>
             </li>
 
@@ -150,8 +154,8 @@ const Navbar = () => {
               }
             >
               <Link
-                className="nav-link"
-                to="/players"
+                className='nav-link'
+                to='/players'
                 style={{
                   display: "inline-flex",
                   alignItems: "center",
@@ -159,7 +163,7 @@ const Navbar = () => {
                 }}
               >
                 <span
-                  className="material-icons"
+                  className='material-icons'
                   style={{ fontSize: "1rem", margin: "0.5vh" }}
                 >
                   groups
@@ -178,15 +182,15 @@ const Navbar = () => {
               }
             >
               <Link
-                className="nav-link"
-                to="/result"
+                className='nav-link'
+                to='/result'
                 style={{
                   display: "inline-flex",
                   alignItems: "center",
                   width: "100%",
                 }}
               >
-                <i className="far fa-chart-bar"></i>Result
+                <i className='far fa-chart-bar'></i>Result
               </Link>
             </li>
             <li
@@ -198,18 +202,19 @@ const Navbar = () => {
               }
             >
               <Link
-                className="nav-link"
-                to="/contact"
+                className='nav-link'
+                to='/contact'
                 style={{
                   display: "inline-flex",
                   alignItems: "center",
                   width: "100%",
                 }}
               >
-                <i className="far fa-copy"></i>Contact Us
+                <i className='far fa-copy'></i>Contact Us
               </Link>
             </li>
             <li
+              id='login'
               className={
                 curLocation === "login" ? "nav-item active" : "nav-item"
               }
@@ -219,8 +224,8 @@ const Navbar = () => {
             >
               {!getLoginUser() ? (
                 <Link
-                  className="nav-link login"
-                  to="/login"
+                  className='nav-link login'
+                  to='/login'
                   style={{
                     display: "inline-flex",
                     alignItems: "center",
@@ -228,7 +233,7 @@ const Navbar = () => {
                   }}
                 >
                   <span
-                    className="material-icons"
+                    className='material-icons'
                     style={{ fontSize: "1rem", margin: "0.5vh" }}
                   >
                     login
@@ -237,7 +242,7 @@ const Navbar = () => {
                 </Link>
               ) : (
                 <Link
-                  className="nav-link"
+                  className='nav-link'
                   onClick={() => {
                     logOut();
                   }}
@@ -248,7 +253,7 @@ const Navbar = () => {
                   }}
                 >
                   <span
-                    className="material-icons"
+                    className='material-icons'
                     style={{ fontSize: "1rem", margin: "0.5vh" }}
                   >
                     logout

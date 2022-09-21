@@ -1,0 +1,7 @@
+3. player ranking and test tournament data correction - akshay
+1. Schedule page - akshay -------- removed for now
+4. Player Info page - akshay/shalini
+
+2. Change all button colors to violet --------- done
+5. remove logs and display proper error messages for api calls -------- done
+6. Sort result page based on year -------- done

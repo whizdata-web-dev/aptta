@@ -15,7 +15,8 @@ import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
 import Divider from "@mui/material/Divider";
-import { Box, CircularProgress } from "@mui/material";
+import { Box } from "@mui/material";
+import LoadingComponent from "../../../../../assets/utils/LoadingComponent";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction='up' ref={ref} {...props} />;
@@ -86,7 +87,7 @@ const EntriesComponent = (props) => {
                 ))
               ) : (
                 <Box sx={{ margin: "2rem 0", textAlign: "center" }}>
-                  <CircularProgress sx={{ color: "#64748b" }} />
+                  <LoadingComponent />
                 </Box>
               )}
             </List>

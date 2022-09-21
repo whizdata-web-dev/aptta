@@ -1,17 +1,7 @@
-import {
-  Box,
-  Card,
-  CircularProgress,
-  Divider,
-  Grid,
-  Tooltip,
-  Typography,
-} from "@mui/material";
-import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import FaceIcon from "@mui/icons-material/Face";
-import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
+import { Box, Card, Divider, Grid, Typography } from "@mui/material";
 import AssignmentIndIcon from "@mui/icons-material/AssignmentInd";
 import Points from "./Points";
+import LoadingComponent from "../../../assets/utils/LoadingComponent";
 
 const RankingCard = ({ loading, eventData }) => {
   const totalPoints = !loading && eventData.length && eventData[0].totPoints;
@@ -19,9 +9,7 @@ const RankingCard = ({ loading, eventData }) => {
     <Grid container spacing={4}>
       {loading ? (
         <Box sx={{ width: "100%", textAlign: "center" }}>
-          <CircularProgress
-            sx={{ color: "#FF7777", margin: "2rem auto 0rem auto" }}
-          />
+          <LoadingComponent />
         </Box>
       ) : (
         eventData &&
@@ -31,11 +19,7 @@ const RankingCard = ({ loading, eventData }) => {
               variant='outlined'
               sx={{
                 borderRadius: "4px",
-                // background:
-                //   "linear-gradient(to right bottom, #332861 30%, #001220 100%)",
-                // margin: "0.5rem",
                 padding: { xs: "0.5rem", md: "1rem" },
-                // color: "#fff",
               }}
             >
               <Box sx={{ display: "flex" }}>

@@ -1,6 +1,4 @@
-import React, { useEffect, useState } from "react";
-import { Box, Button, Divider, Grid, List, TextField } from "@mui/material";
-import ContactMap from "../contactMap/ContactMap";
+import { Box, Button, Divider, Grid, TextField } from "@mui/material";
 import Map from "../contactMap/Map";
 
 export default function ContactForm({ coordinates }) {

@@ -6,7 +6,6 @@ On validation player is allowed to create new Password
 import React, { useState } from "react";
 import { RequestData, urlConsts } from "../../assets/utils/RequestData";
 import OtpInput from "react-otp-input";
-import { useHistory } from "react-router-dom";
 import { Box, Button, CardHeader, TextField, Typography } from "@mui/material";
 import Avatar from "@mui/material/Avatar";
 import pwdLogo from "../../assets/img/pwd.gif";
@@ -25,7 +24,6 @@ export default function ResetPassword(props) {
   ]);
   const [OTP, setOTP] = useState("");
 
-  const history = useHistory();
   // This method is for sending the OTP for email address
   const sendOTPClick = (event) => {
     event.preventDefault();
@@ -61,7 +59,7 @@ export default function ResetPassword(props) {
             errorClass: "OTPLengthError",
             errorMessage: "4 digit OTP required!",
           })
-        : OTP != resetPwdValues.verificationCode
+        : OTP != resetPwdValues.verificationCode // eslint-disable-line
         ? setresetPwdValues({
             ...resetPwdValues,
             errorClass: "OTPError",
@@ -130,7 +128,7 @@ export default function ResetPassword(props) {
         if (response.result && response.result.status === "success") {
           setresetPwdValues({
             ...resetPwdValues,
-            message: "Password Reset successful! Click on Sign In to Login",
+            message: "Password Reset successful! \n Login to proceed.",
             errorClass: "success",
           });
         } else {
@@ -168,6 +166,7 @@ export default function ResetPassword(props) {
         className="login-form"
         style={{
           marginTop: "40%",
+          width: "100%"
         }}
         onSubmit={sendOTPClick}
       >
@@ -180,7 +179,7 @@ export default function ResetPassword(props) {
           variant="filled"
           inputProps={{
             maxLength: 30,
-            style: { backgroundColor: "#fff" },
+            style: { width: '100%', backgroundColor: "#fff" },
           }}
           sx={{
             width: "100%",
@@ -262,7 +261,7 @@ export default function ResetPassword(props) {
   const renderOTPConfirmationForm = () => {
     return (
       <form
-        className="login-form"
+        className='login-form'
         onSubmit={confirmClick}
         style={{
           textAlign: "center",
@@ -285,7 +284,7 @@ export default function ResetPassword(props) {
             />
           }
         />
-        <h3 className="login-h1">Verify your Account</h3>
+        <h3 className='login-h1'>Verify your Account</h3>
         {/* OTP type input field to filling OTP recieved in email */}
         {resetPwdValues.verificationCode ? (
           <p
@@ -312,16 +311,16 @@ export default function ResetPassword(props) {
             value={OTP}
             onChange={otpInputChange}
             OTPLength={4}
-            otpType="number"
+            otpType='number'
             separator={<span>&nbsp;</span>}
             secure
           />
         </Box>
         <TextField
           required
-          type="password"
-          label="New Password"
-          variant="filled"
+          type='password'
+          label='New Password'
+          variant='filled'
           value={resetPwdValues.password}
           onChange={(event) =>
             setresetPwdValues({
@@ -337,10 +336,10 @@ export default function ResetPassword(props) {
 
         <TextField
           required
-          id="cPassword"
-          type="password"
-          variant="filled"
-          label="Confirm Password"
+          id='cPassword'
+          type='password'
+          variant='filled'
+          label='Confirm Password'
           value={resetPwdValues.confirmPassword}
           onChange={(event) =>
             setresetPwdValues({
@@ -367,8 +366,8 @@ export default function ResetPassword(props) {
         )}
         <Button
           block
-          type="submit"
-          style={{
+          type='submit'
+          sx={{
             borderRadius: "20px",
             color: "white",
             margin: "1rem 0.5rem",
@@ -383,7 +382,17 @@ export default function ResetPassword(props) {
         >
           Submit
         </Button>
-        <Button
+        <button
+          onClick={cancelFgtPwd}
+          className='signin login-button'
+          style={{
+            marginTop: "1rem",
+          }}
+          id='signIn'
+        >
+          Sign In
+        </button>
+        {/* <Button
           onClick={cancelFgtPwd}
           style={{
             border: "none",
@@ -391,7 +400,7 @@ export default function ResetPassword(props) {
             margin: "0 0.5rem",
             padding: "0 35%",
           }}
-          className="signin"
+          className='signin'
         >
           <Typography
             style={{
@@ -403,7 +412,7 @@ export default function ResetPassword(props) {
           >
             Sign In
           </Typography>
-        </Button>
+        </Button> */}
       </form>
     );
   };
@@ -411,7 +420,7 @@ export default function ResetPassword(props) {
   const renderPasswordReset = () => {
     return (
       <form
-        className="login-form"
+        className='login-form'
         style={{
           textAlign: "center",
           marginTop: "15%",
@@ -430,41 +439,34 @@ export default function ResetPassword(props) {
             color: "green",
             fontSize: "26px",
             fontweight: "700",
-            fontStyle: "italic",
             marginBottom: "1px",
           }}
         >
           {resetPwdValues.message}
         </p>
 
-        <Button
+        <button
           onClick={cancelFgtPwd}
+          className='signin login-button'
           style={{
-            border: "none",
-            background: "white",
-            margin: "0 0.5rem",
-            padding: "0 35%",
+            marginTop: "1rem",
           }}
-          className="signin"
+          id='signIn'
         >
-          <Typography
-            style={{
-              fontWeight: "bold",
-              background: "white",
-              textDecorationLine: "underLine",
-              marginBottom: "2px",
-            }}
-          >
-            Sign In
-          </Typography>
-        </Button>
+          Sign In
+        </button>
       </form>
     );
   };
 
   return (
     <Box
-      style={{
+      sx={{
+        height: "80%",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "center",
         textAlign: "center",
         overflow: "hidden",
       }}
@@ -472,7 +474,7 @@ export default function ResetPassword(props) {
       {!resetPwdValues.verificationCode
         ? // renderResetForm is returned in case of OTP is not sent
           renderResetForm()
-        : resetPwdValues.errorClass != "success"
+        : resetPwdValues.errorClass != "success" // eslint-disable-line
         ? // renderOTPConfirmationForm is returned in case of OTP is not Confirmed
           renderOTPConfirmationForm()
         : renderPasswordReset()}

@@ -50,3 +50,7 @@ body::-webkit-scrollbar-thumb:hover {
 *:active {
   border: none;
 }
+
+a:hover {
+  cursor: pointer !important;
+}

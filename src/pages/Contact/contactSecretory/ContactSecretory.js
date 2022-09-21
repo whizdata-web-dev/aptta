@@ -7,7 +7,11 @@ import ListItemAvatar from "@mui/material/ListItemAvatar";
 import Avatar from "@mui/material/Avatar";
 import Typography from "@mui/material/Typography";
 
-export default function ContactSecretory({ contactData, handleChange }) {
+export default function ContactSecretory({
+  activeId,
+  contactData,
+  handleChange,
+}) {
   return (
     <List
       className='secretoryList'
@@ -26,6 +30,7 @@ export default function ContactSecretory({ contactData, handleChange }) {
             <ListItem
               alignItems='flex-start'
               onClick={() => handleChange(item)}
+              sx={{ borderLeft: activeId === item.id ? "2px solid #252525" : "" }}
             >
               <ListItemAvatar>
                 <Avatar
@@ -39,14 +44,13 @@ export default function ContactSecretory({ contactData, handleChange }) {
                 secondary={
                   <React.Fragment>
                     <Typography
-                      sx={{ display: "inline" }}
+                      sx={{ display: "inline", fontWeight: "bold" }}
                       component='span'
-                      variant='body2'
+                      variant='body1'
                       color='text.primary'
                     >
                       {item.contactPerson}
                     </Typography>
-                    {" - Hon. Secretary"}
                     <br />
                     <Typography
                       sx={{ display: "inline" }}

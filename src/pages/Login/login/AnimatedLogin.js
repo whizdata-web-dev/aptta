@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Box, Button, TextField, Typography } from "@mui/material";
+import { Box, Button, Dialog, TextField, Typography } from "@mui/material";
 import useRazorpay from "react-razorpay";
 import "./LoginStyles.css";
 import Register from "../Register";
@@ -10,15 +10,19 @@ import {
   useLoginContext,
   handleTournamentId,
 } from "../../../assets/utils/UserLoginContext";
+import LoadingComponent from "../../../assets/utils/LoadingComponent";
+import CloseIcon from "@mui/icons-material/Close";
+import { Alert, Collapse, IconButton } from "@mui/material";
 
 const AnimatedLogin = () => {
-  const [activeClass, setActiveClass] = useState("login_container");
   const location = useLocation();
   const history = useHistory();
   // calling context api methods for setting user and tournament id
-  const { setLoginUser } = useLoginContext();
+  const { getLoginUser, setLoginUser } = useLoginContext();
+  const getUser = getLoginUser();
   // Declaring Razor pay for payment
   const Razorpay = useRazorpay();
+  const [activeClass, setActiveClass] = useState("login_container");
   //declaring states for input fields with error message
   const [loginValues, setLoginValue] = useState([
     {
@@ -29,9 +33,16 @@ const AnimatedLogin = () => {
       errorMessage: "",
     },
   ]);
+  const [waiting, setWaiting] = useState(false);
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+
+  useEffect(() => {
+    // if (getUser) window.location.href = "https://www.aptabletennis.org/home";
+    if (getUser) history.push("/");
+  }, []); // eslint-disable-line
 
   // This is to call razorpay in case of payment renewal
   // This is rendered once payment of player expires.
@@ -71,7 +82,6 @@ const AnimatedLogin = () => {
       setLoginValue({
         errorMessage: response.error.description,
       });
-      history.push("/");
     });
     rzp1.open();
   };
@@ -81,6 +91,7 @@ const AnimatedLogin = () => {
     // checking weather user is invalid or password is incorrect
     //if invalid setting error to error button class defined in Loginstyles.css
     // error message is displayed to end user
+    setWaiting(false);
     response === "Invalid user"
       ? setLoginValue({
           error: "errorButton",
@@ -117,7 +128,6 @@ const AnimatedLogin = () => {
     await RequestData("POST", "renewalUnderAssoc", content)
       // Getting the Response object which holds the data of Previous tournaments
       .then((response) => {
-        console.log(response, content);
         //Checking weather response data is null
         if (response.result) {
           setLoginUser(player); // setting data to context api
@@ -127,6 +137,7 @@ const AnimatedLogin = () => {
           }
           if (response.result._id) {
             history.push("/");
+            document.getElementById("home").click();
           }
         } else {
           setLoginValue({
@@ -188,6 +199,7 @@ const AnimatedLogin = () => {
             (er.result && er.result.message) ||
             "Something went wrong! Please try again later.",
         });
+        setWaiting(false);
       });
   };
 
@@ -199,7 +211,8 @@ const AnimatedLogin = () => {
   // Calling submit event on form submit with email address and password
   const submitLogin = (event) => {
     event.preventDefault(); // denaid for not assigning the default values
-    // isnan in case of phone number
+    setWaiting(true);
+    // is nan in case of phone number
     const pattern =
       /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@([a-z]+)+(?:\.[a-zA-Z0-9-]+)*$/;
     //pattern check for Email ID
@@ -210,12 +223,11 @@ const AnimatedLogin = () => {
           error: "emailError",
           errorMessage: "Invalid Email Address!",
         })
-        
       : // checking if password length is less than 5
       // then button animation and error message is displayed to user.
       String(loginValues.password).length <= 5
       ? setLoginValue({
-        ...loginValues,
+          ...loginValues,
           error: "pwdError",
           errorMessage: "Password should contain atleast 6 charecters!",
         })
@@ -238,163 +250,280 @@ const AnimatedLogin = () => {
     });
   };
 
+  const [openError, setOpenError] = useState(false);
+  const [openSuccess, setOpenSuccess] = useState(false);
+
+  const errorMessage = localStorage.getItem("erMsg");
+  const successMessage = localStorage.getItem("sMsg");
+
+  useEffect(() => {
+    if (errorMessage) {
+      setOpenError(true);
+      setTimeout(() => {
+        setOpenError(false);
+        localStorage.removeItem("erMsg");
+      }, 3000);
+    }
+  }, [errorMessage]);
+
+  useEffect(() => {
+    if (successMessage) {
+      setOpenSuccess(true);
+      setTimeout(() => {
+        setOpenSuccess(false);
+        localStorage.removeItem("sMsg");
+      }, 3000);
+    }
+  }, [successMessage]);
+
+  useEffect(() => {
+    setTimeout(() => {
+      if (location.pathname.split("/")[1] === "entries") {
+      } else if (location.pathname.split("/")[1] !== "login") {
+        setOpenError(false);
+        setOpenSuccess(false);
+      } else {
+      }
+    }, 500);
+  }, [location.pathname]);
+
   return (
-    <Box className="loginroot" sx={{ padding: "2rem 0" }}>
-      <Box className="loginbody">
-        <Box
-          className={activeClass}
-          id="container"
-          sx={{ maxWidth: { xs: "400px", md: "100%" } }}
-        >
-          <Box className="form-container sign-up-container">
-            <Box className="login-form">
-              <Register />
-            </Box>
-          </Box>
+    <Box>
+      <Box className='loginroot pt-16'>
+        <Box sx={{ margin: "-1rem 0 1rem 0" }}>
           <Box
-            className="form-container sign-in-container"
             sx={{
-              "@media screen and (max-width: 301px)": {
-                overflow: "auto",
-                width: "120%",
-                padding: "-1rem 0",
-                paddingRight: "1rem",
-              },
+              paddingBlock: "2rem 0rem",
+              display: errorMessage ? "flex" : "none",
+              justifyContent: "center",
             }}
           >
-            {/* 
+            <Collapse in={openError}>
+              <Alert
+                severity='warning'
+                sx={{
+                  width: "fit-content",
+                  marginInline: "auto",
+                  display: errorMessage ? "flex" : "none",
+                }}
+                action={
+                  <IconButton
+                    aria-label='close'
+                    color='inherit'
+                    size='small'
+                    onClick={() => {
+                      setOpenError(false);
+                    }}
+                  >
+                    <CloseIcon fontSize='inherit' />
+                  </IconButton>
+                }
+              >
+                {errorMessage}
+              </Alert>
+            </Collapse>
+          </Box>
+          <Box
+            sx={{
+              paddingBlock: "2rem 0rem",
+              display: successMessage ? "flex" : "none",
+              justifyContent: "center",
+            }}
+          >
+            <Collapse in={openSuccess}>
+              <Alert
+                severity='success'
+                sx={{
+                  width: "fit-content",
+                  marginInline: "auto",
+                  display: successMessage ? "flex" : "none",
+                }}
+                action={
+                  <IconButton
+                    aria-label='close'
+                    color='inherit'
+                    size='small'
+                    onClick={() => {
+                      setOpenSuccess(false);
+                    }}
+                  >
+                    <CloseIcon fontSize='inherit' />
+                  </IconButton>
+                }
+              >
+                {successMessage}
+              </Alert>
+            </Collapse>
+          </Box>
+        </Box>
+        <Dialog open={waiting}>
+          <LoadingComponent />
+        </Dialog>
+        <Box className='loginbody py-4'>
+          <Box
+            className={activeClass}
+            id='container'
+            sx={{ maxWidth: { xs: "400px", md: "100%" } }}
+          >
+            <Box className='form-container sign-up-container'>
+              <Box
+                className='login-form'
+                sx={{
+                  padding: {
+                    xs: "0 1rem !important",
+                    md: "0 2rem !important",
+                    height: "100%",
+                  },
+                }}
+              >
+                <Register />
+              </Box>
+            </Box>
+            <Box
+              className='form-container sign-in-container'
+              sx={{
+                "@media screen and (max-width: 301px)": {
+                  overflow: "auto",
+                  width: "120%",
+                  padding: "-1rem 0",
+                  paddingRight: "1rem",
+                },
+              }}
+            >
+              {/* 
             checking weather forgot password is clicked - true / false
             if clicked forgot password component is rendered
              */}
-            {loginValues.forgotPwdFlag === true ? (
-              <ForgotPassword onChange={cancelFgtPwd} />
-            ) : (
-              <form className="login-form" onSubmit={submitLogin}>
-                <h1 className="login-h1">Sign in</h1>
-                <TextField
-                  id="emailLogin"
-                  required
-                  value={loginValues.email}
-                  type="email"
-                  variant="filled"
-                  className={
-                    loginValues.error === "emailError" ? "error" : "textWidth"
-                  }
-                  sx={{
-                    paddingTop: "1rem",
-                  }}
-                  placeholder="Email Address"
-                  name="email"
-                  onChange={handleInputChange}
-                />
-                <TextField
-                  id="password"
-                  required
-                  type="password"
-                  variant="filled"
-                  value={loginValues.password}
-                  placeholder="Password"
-                  name="password"
-                  className={
-                    loginValues.error === "pwdError" ? "error" : "textWidth"
-                  }
-                  sx={{
-                    paddingTop: "1rem",
-                  }}
-                  onChange={handleInputChange}
-                />
-
-                {/* showing the error message in case of error */}
-                {loginValues.errorMessage ? (
-                  <p
-                    style={{
-                      color: "orangered",
-                      fontSize: "16px",
-                    }}
-                  >
-                    {loginValues.errorMessage}
-                  </p>
-                ) : (
-                  ""
-                )}
-                <button
-                  className="signin login-button"
-                  style={{
-                    marginTop: "1rem",
-                  }}
-                  id="signIn"
-                >
-                  Sign In
-                </button>
-                <Box sx={{ margin: "1rem" }}>
-                  <Button
-                    variant="text"
-                    onClick={handleForgotPassword}
+              {loginValues.forgotPwdFlag === true ? (
+                <ForgotPassword onChange={cancelFgtPwd} />
+              ) : (
+                <form className='login-form' onSubmit={submitLogin}>
+                  <h1 className='login-h1'>Sign in</h1>
+                  <TextField
+                    id='emailLogin'
+                    required
+                    value={loginValues.email}
+                    type='email'
+                    variant='filled'
+                    className={
+                      loginValues.error === "emailError" ? "error" : "textWidth"
+                    }
                     sx={{
-                      border: "none",
-                      background: "white",
-                      margin: "-0.5rem 0.5rem",
-                      "@media screen and (max-width: 931px)": {
-                        padding: "0 0",
-                        overflow: "auto",
-                        paddingLeft: "-2rem",
-                        margin: "0 0",
-                      },
-                      "@media screen and (max-width: 301px)": {
-                        overflow: "hidden",
-                        marginLeft: "-1.5rem",
-                      },
+                      paddingTop: "1rem",
                     }}
+                    placeholder='Email Address'
+                    name='email'
+                    onChange={handleInputChange}
+                  />
+                  <TextField
+                    id='password'
+                    required
+                    type='password'
+                    variant='filled'
+                    value={loginValues.password}
+                    placeholder='Password'
+                    name='password'
+                    className={
+                      loginValues.error === "pwdError" ? "error" : "textWidth"
+                    }
+                    sx={{
+                      paddingTop: "1rem",
+                    }}
+                    onChange={handleInputChange}
+                  />
+
+                  {/* showing the error message in case of error */}
+                  {loginValues.errorMessage ? (
+                    <p
+                      style={{
+                        color: "orangered",
+                        fontSize: "16px",
+                      }}
+                    >
+                      {loginValues.errorMessage}
+                    </p>
+                  ) : (
+                    ""
+                  )}
+                  <button
+                    className='signin login-button'
+                    style={{
+                      marginTop: "1rem",
+                    }}
+                    id='signIn'
                   >
-                    <Typography
-                      variant="body2"
+                    Sign In
+                  </button>
+                  <Box sx={{ margin: "1rem" }}>
+                    <Button
+                      variant='text'
+                      onClick={handleForgotPassword}
                       sx={{
-                        fontWeight: "bold",
-                        color: "#616161",
-                        textDecoration: "none",
-                        transition: "0.3s all ease",
-                        "&:hover": {
-                          color: "#333",
-                          transform: "scale(1.01)",
-                          textDecoration: "underLine",
+                        border: "none",
+                        background: "white",
+                        margin: "-0.5rem 0.5rem",
+                        "@media screen and (max-width: 931px)": {
+                          padding: "0 0",
+                          overflow: "auto",
+                          paddingLeft: "-2rem",
+                          margin: "0 0",
+                        },
+                        "@media screen and (max-width: 301px)": {
+                          overflow: "hidden",
+                          marginLeft: "-1.5rem",
                         },
                       }}
                     >
-                      Forgot password?
-                    </Typography>
-                  </Button>
+                      <Typography
+                        variant='body2'
+                        sx={{
+                          fontWeight: "bold",
+                          color: "#616161",
+                          textDecoration: "none",
+                          transition: "0.3s all ease",
+                          "&:hover": {
+                            color: "#333",
+                            transform: "scale(1.01)",
+                            textDecoration: "underLine",
+                          },
+                        }}
+                      >
+                        Forgot password?
+                      </Typography>
+                    </Button>
+                  </Box>
+                </form>
+              )}
+            </Box>
+            <Box className='overlay-container'>
+              <Box className='overlay'>
+                <Box className='overlay-panel overlay-left'>
+                  <h1 className='login-h1'>Welcome Back Player!</h1>
+                  <p className='login-p'>Please login to give entries.</p>
+                  <button
+                    className='ghost signin login-button'
+                    id='signIn1'
+                    onClick={() => setActiveClass("login_container")}
+                  >
+                    Sign In
+                  </button>
                 </Box>
-              </form>
-            )}
-          </Box>
-          <Box className="overlay-container">
-            <Box className="overlay">
-              <Box className="overlay-panel overlay-left">
-                <h1 className="login-h1">Welcome Back Player!</h1>
-                <p className="login-p">Please login to give entries.</p>
-                <button
-                  className="ghost signin login-button"
-                  id="signIn1"
-                  onClick={() => setActiveClass("login_container")}
-                >
-                  Sign In
-                </button>
-              </Box>
-              <Box className="overlay-panel overlay-right">
-                <h1 className="login-h1">Hello, Player!</h1>
-                <p className="login-p">
-                  Enter your personal details and start journey in the
-                  competitive world of Table Tennis!
-                </p>
-                <button
-                  className="ghost signup login-button"
-                  id="signUp"
-                  onClick={() =>
-                    setActiveClass("login_container right-panel-active")
-                  }
-                >
-                  Sign Up
-                </button>
+                <Box className='overlay-panel overlay-right'>
+                  <h1 className='login-h1'>Hello, Player!</h1>
+                  <p className='login-p'>
+                    Enter your personal details and start journey in the
+                    competitive world of Table Tennis!
+                  </p>
+                  <button
+                    className='ghost signup login-button'
+                    id='signUp'
+                    onClick={() =>
+                      setActiveClass("login_container right-panel-active")
+                    }
+                  >
+                    Sign Up
+                  </button>
+                </Box>
               </Box>
             </Box>
           </Box>

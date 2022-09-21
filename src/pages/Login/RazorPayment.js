@@ -3,7 +3,7 @@ Payment gateway using Razorpay
 */
 import React, { useState } from "react";
 import useRazorpay from "react-razorpay";
-import { httpRequestMethod, urlConsts } from "../Common/HTTPRequestMethod";
+import { RequestData, urlConsts } from "../../assets/utils/RequestData";
 
 const RazorPayment = (props) => {
   const [message, setMessage] = useState("");
@@ -34,7 +34,7 @@ const RazorPayment = (props) => {
       dob: props.dob,
     };
     // Calling HTTP method by passing Api Type and Api URL and object params
-    await httpRequestMethod("POST", "playerRegisterUnderAssoc", content)
+    await RequestData("POST", "playerRegisterUnderAssoc", content)
       // Getting the Response object which holds the data of player registration
       .then((response) => {
         //Checking weather response data is null
@@ -58,7 +58,8 @@ const RazorPayment = (props) => {
   const renewPayment = async (player) => {
     const options = {
       key: urlConsts.paymentKeyId, // payment key declared in HTTP method
-      amount: urlConsts.amount, //Constant amount declared in HTTP method
+      amount: "100", //Constant amount declared in HTTP method
+      // amount: urlConsts.amount, //Constant amount declared in HTTP method
       currency: "INR",
       name: urlConsts.caller, // caller id declared in HTTP method
       description: "Test Transaction",
@@ -99,7 +100,8 @@ const RazorPayment = (props) => {
   const handleRegPayment = async () => {
     const options = {
       key: urlConsts.paymentKeyId, // ID from razor pay account
-      amount: props.amount, //Constant amount declared in HTTP method
+      amount: "100", //Constant amount declared in HTTP method
+      // amount: props.amount, //Constant amount declared in HTTP method
       currency: "INR",
       name: urlConsts.caller,
       description: "Test Transaction",

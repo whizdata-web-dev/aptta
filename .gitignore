@@ -1,3 +1,5 @@
 node_modules
 build
+build_development
+build_production
 package-lock.json

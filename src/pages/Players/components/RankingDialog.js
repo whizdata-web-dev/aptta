@@ -1,5 +1,4 @@
 import * as React from "react";
-import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
@@ -11,14 +10,40 @@ import { urlConsts } from "../../../assets/utils/RequestData";
 import FetchData from "../../../assets/utils/FetchData";
 
 export default function RankingDialog({ eventName, open, handleClose }) {
-  const { data, loading, error } = FetchData({
+  // params =
+  //   "caller=" +
+  //   caller +
+  //   "&apiKey=" +
+  //   apiKey +
+  //   "&sportID=" +
+  //   sportID +
+  //   "&eventName=" +
+  //   name +
+  //   "&filterData=" +
+  //   userid +
+  //   "&playerId=" +
+  //   id;
+
+  // params =
+  //   "caller=" +
+  //   caller +
+  //   "&apiKey=" +
+  //   apiKey +
+  //   "&sportID=" +
+  //   sportID +
+  //   "&eventName=" +
+  //   optionSelected +
+  //   "&filterData=" +
+  //   userid;
+
+  const { data, loading } = FetchData({
     method: "POST",
     url: "fetchRankData",
     payload: {
       caller: urlConsts.caller,
       sportID: urlConsts.sportID,
       eventName: eventName,
-      filterData: "z37CQ3th8i73SQogk",
+      filterData: urlConsts.filterData,
     },
     pathname: eventName,
   });

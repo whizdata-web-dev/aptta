@@ -4,6 +4,7 @@ import { Box, Typography } from "@mui/material";
 import PhoneIphoneIcon from "@mui/icons-material/PhoneIphone";
 import BusinessIcon from "@mui/icons-material/Business";
 import EmailIcon from "@mui/icons-material/Email";
+import male from "../../../assets/img/male.png";
 
 export default function OfficeBearerCard({ officeBearer }) {
   return (
@@ -38,7 +39,7 @@ export default function OfficeBearerCard({ officeBearer }) {
           >
             <img
               alt='...'
-              src={officeBearer.image}
+              src={officeBearer.image ?? male}
               className='tailwind_img shadow-xl rounded-full border-none absolute'
               width={"90px"}
               height={"90px"}
@@ -100,7 +101,7 @@ export default function OfficeBearerCard({ officeBearer }) {
               <Typography
                 sx={{
                   margin: "1rem",
-                  textAlign: "justify",
+                  textAlign: { xs: "center", md: "justify" },
                 }}
                 variant='body2'
                 color='text.secondary'
