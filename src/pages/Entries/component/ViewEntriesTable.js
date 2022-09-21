@@ -5,6 +5,8 @@ import { styled } from "@mui/material/styles";
 import TableCell from "@mui/material/TableCell";
 import Paper from "@mui/material/Paper";
 import { AutoSizer, Column, Table } from "react-virtualized";
+import empty_record from "../../../assets/img/empty_record.jpg";
+import { Box } from "@mui/material";
 
 const classes = {
   flexContainer: "ReactVirtualizedDemo-flexContainer",
@@ -161,31 +163,46 @@ const VirtualizedTable = styled(MuiVirtualizedTable)(styles);
 
 const ViewEntriesTable = ({ rows }) => {
   return (
-    <Paper style={{ height: 400, width: "100%" }}>
-      <VirtualizedTable
-        rowCount={rows.length}
-        rowGetter={({ index }) => rows[index]}
-        columns={[
-          {
-            width: 300,
-            label: "Player Name",
-            dataKey: "playerName",
-          },
-          {
-            width: 350,
-            label: "Academy",
-            dataKey: "Academy",
-          },
-          {
-            width: 100,
-            label: "Ranking",
-            dataKey: "rank",
-            numeric: true,
-          },
-        ]}
-        sx={{ border: "1px solid #332861" }}
-      />
-    </Paper>
+    <>
+      {rows.length ? (
+        <Paper style={{ height: 400, width: "100%", maxWidth: 760 }}>
+          <VirtualizedTable
+            rowCount={rows.length}
+            rowGetter={({ index }) => rows[index]}
+            columns={[
+              {
+                width: 300,
+                label: "Player Name",
+                dataKey: "playerName",
+              },
+              {
+                width: 350,
+                label: "Academy",
+                dataKey: "Academy",
+              },
+              {
+                width: 100,
+                label: "Ranking",
+                dataKey: "rank",
+                numeric: true,
+              },
+            ]}
+            sx={{ border: "1px solid #332861" }}
+          />
+        </Paper>
+      ) : (
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <img src={empty_record} alt='...' width={300} />
+        </Box>
+      )}
+    </>
   );
 };
 

@@ -30,7 +30,7 @@ const EntriesContainer = () => {
         // flexDirection: "column",
         // justifyContent: "center",
         // alignItems: "center",
-        paddingTop: "5rem",
+        paddingTop: "3rem",
       }}
     >
       {Object.keys(data).length > 0 ? (

@@ -75,18 +75,18 @@ const GiveEntriesComponent = ({ tournamentData }) => {
   }, [selected]); // eslint-disable-line
 
   const paymentTransaction = async (transactionId) => {
-    let subscribedTournamentId = selected.map(
-      (eventName) =>
-        eventFees.filter((eventDetails) => eventName === eventDetails.name)[0]
-          .id
-    );
+    // let subscribedTournamentId = selected.map(
+    //   (eventName) =>
+    //     eventFees.filter((eventDetails) => eventName === eventDetails.name)[0]
+    //       .id
+    // );
 
     let content = {
       caller: process.env.REACT_APP_CALLER,
       data: {
         userId: getUser.userId,
         tournamentId: handleTournamentId.getTournId(),
-        subscribeID: subscribedTournamentId,
+        subscribeID: selected,
         unSubscribeID: [],
         transactionID: transactionId,
         transactionAmount: invoiceTotal * 100,

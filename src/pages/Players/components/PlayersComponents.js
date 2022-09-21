@@ -69,9 +69,35 @@ const PlayersComponents = () => {
         <section className='relative py-16 bg-blueGray-200'>
           <Box className='container mx-auto px-4'>
             <Box
-              className='relative flex flex-col min-w-0 break-words w-full mb-6 shadow-xl -mt-80'
-              sx={{ backgroundColor: "#F1F1F1" }}
+              className='relative flex flex-col min-w-0 break-words w-full mb-6 shadow-xl'
+              sx={{
+                marginTop: "-24rem",
+                background: "linear-gradient(to bottom, #fff, #F1F1F1)",
+              }}
             >
+              <Box
+                className='w-full font-serif py-16 text-center md:py-8 border-b border-blueGray-200'
+                sx={{ margin: "2rem 0 4rem 0" }}
+              >
+                <Typography
+                  variant='h2'
+                  className='text-5xl font-semibold uppercase'
+                  style={{ letterSpacing: "2px" }}
+                >
+                  Players Ranking
+                </Typography>
+              </Box>
+              <Box
+                className='text-center'
+                sx={{
+                  marginLeft: { md: "2rem" },
+                  marginTop: { xs: "-4rem", lg: "-6rem" },
+                }}
+              >
+                <h3 className='tailwind_h3 text-4xl font-semibold leading-normal mb-2 text-blueGray-700'>
+                  &nbsp;
+                </h3>
+              </Box>
               <Box className='px-6 mt-8 mb-8'>
                 <Box>
                   <Grid container sx={{ justifyContent: "center" }}>
@@ -94,6 +120,7 @@ const PlayersComponents = () => {
                             padding: "2rem",
                             margin: { xs: "0.5rem", md: "1rem" },
                           }}
+                          variant={"outlined"}
                         >
                           <Typography
                             variant='h5'
@@ -104,7 +131,7 @@ const PlayersComponents = () => {
                               marginBottom: "1rem",
                             }}
                           >
-                            Players Ranking - {value}
+                            Year {value}
                           </Typography>
                           <Grid
                             container

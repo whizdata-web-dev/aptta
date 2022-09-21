@@ -19,17 +19,7 @@ const ViewEntriesComponent = ({
   handleChange,
   loadingPlayerData,
   playersData,
-}) => {
-
-  console.log({
-    tournamentName,
-    eventId,
-    eventDetails,
-    handleChange,
-    loadingPlayerData,
-    playersData,
-  });
-  
+}) => {  
   return (
     <Card sx={{ borderRadius: "4px", padding: "2rem" }}>
       <Box
@@ -91,7 +81,15 @@ const ViewEntriesComponent = ({
           />
         )}
       </Box>
-      <Box>
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
+          textAlign: "center",
+        }}
+      >
         {loadingPlayerData ? (
           <LoadingComponent />
         ) : (

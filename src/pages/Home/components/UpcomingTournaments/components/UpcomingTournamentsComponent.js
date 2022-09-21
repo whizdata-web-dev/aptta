@@ -24,8 +24,6 @@ const UpcomingTournamentsComponent = ({
   mapWidth,
   handleGiveEntry,
 }) => {
-
-  console.log("upcomingTournamnent: ", data);
   return (
     <Box className={`block w-full px-4 overflow-y-auto pb-6`}>
       {Object.keys(data).length !== 0 ? (

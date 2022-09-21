@@ -25,7 +25,6 @@ const CountdownTimer = ({ date }) => {
   dateArray[1] = dateArray[2];
   dateArray[2] = tempYear;
 
-  console.log("dateArray", new Date(dateArray.join("/")));
   const countToDate = new Date();
   let previousTimeBetweenDates;
 
