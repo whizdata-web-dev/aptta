@@ -58,7 +58,7 @@ const Navbar = () => {
         );
       });
     }, 1000);
-  }, []);
+  }, [curLocation]);
 
   return (
     <Box className={`navbar-root ${navbarStyle}`}>
@@ -172,7 +172,7 @@ const Navbar = () => {
               </Link>
             </li>
             <li
-            id="result"
+              id='result'
               className={
                 curLocation === "result" || curLocation === "tournament"
                   ? "nav-item active"
@@ -243,6 +243,7 @@ const Navbar = () => {
                 </Link>
               ) : (
                 <Link
+                  to='/login'
                   className='nav-link'
                   onClick={() => {
                     logOut();

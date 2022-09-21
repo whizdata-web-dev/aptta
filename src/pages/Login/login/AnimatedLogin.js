@@ -363,7 +363,7 @@ const AnimatedLogin = () => {
         <Dialog open={waiting}>
           <LoadingComponent />
         </Dialog>
-        <Box className='loginbody py-4'>
+        <Box className='loginbody py-2'>
           <Box
             className={activeClass}
             id='container'

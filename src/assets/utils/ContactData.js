@@ -65,14 +65,6 @@ export const contactData = [
     longitude: "80.637895",
   },
   {
-    id: "9",
-    locationName: "",
-    contactPerson: "",
-    contactMobile: "94482 52048 ",
-    latitude: "16.982683",
-    longitude: "82.246607",
-  },
-  {
     id: "10",
     locationName: "District Sports Authority, Indoor Stadium, Kakinada",
     contactPerson: "Sri.Achyuthakumar",
