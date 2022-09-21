@@ -24,7 +24,7 @@ export default function CardStats({ subtitle, title, link, buttonName }) {
           <Link
             to={`/result/${link}`}
             style={{ TextDecoration: "none" }}
-            onClick={() => document.getElementById("resultTab").click()}
+            onClick={() => document.getElementById("result").click()}
           >
             <Box className='text-sm text-blueGray-400 mt-4'>
               <Box

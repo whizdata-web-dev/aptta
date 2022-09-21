@@ -172,6 +172,7 @@ const Navbar = () => {
               </Link>
             </li>
             <li
+            id="result"
               className={
                 curLocation === "result" || curLocation === "tournament"
                   ? "nav-item active"
