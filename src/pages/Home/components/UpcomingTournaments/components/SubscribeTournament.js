@@ -27,7 +27,6 @@ import {
 } from "@mui/material";
 import {
   RequestData,
-  urlConsts,
 } from "../../../../../assets/utils/RequestData";
 import useRazorpay from "react-razorpay";
 // import "../../Register/login/LoginStyles.css";
@@ -158,7 +157,7 @@ const SubscribeTournament = ({ open, handleClose, getUser }) => {
       });
     //parameters passed as object to HTTP method POST
     let content = {
-      caller: urlConsts.caller,
+      caller: process.env.REACT_APP_CALLER,
       data: {
         userId: getUser.userId,
         tournamentId: tournamentId,
@@ -200,9 +199,9 @@ const SubscribeTournament = ({ open, handleClose, getUser }) => {
   const getSubscribeTournamentList = async () => {
     await RequestData(
       "GET",
-      `eventListUnderTourn?caller=${urlConsts.caller}&apiKey=${urlConsts.apiKey}&tournamentId=${tournamentId}&userId=${getUser.userId}`
+      `eventListUnderTourn?caller=${process.env.REACT_APP_CALLER}&apiKey=${process.env.REACT_APP_API_KEY}&tournamentId=${tournamentId}&userId=${getUser.userId}`
     )
-      // `eventListUnderTourn?caller=${urlConsts.caller}&apiKey=${urlConsts.apiKey}&tournamentId=${tournamentId}&userId=${urlConsts.filterData}`
+      // `eventListUnderTourn?caller=${process.env.REACT_APP_CALLER}&apiKey=${process.env.REACT_APP_API_KEY}&tournamentId=${tournamentId}&userId=${process.env.filterData}`
       .then((response) => {
         // Checking the response before changing the state
         if (response && response.result) {
@@ -225,11 +224,11 @@ const SubscribeTournament = ({ open, handleClose, getUser }) => {
   const handlePayment = async () => {
     let options = {};
     options = {
-      key: urlConsts.paymentKeyId, // ID from razor pay account
+      key: process.env.REACT_APP_RAZORPAY_PAYMENT_KEY_ID, // ID from razor pay account
       amount: 100, // total amount to pay
       // amount: totalAmount * 100, // total amount to pay
       currency: "INR",
-      name: urlConsts.caller,
+      name: process.env.REACT_APP_CALLER,
       description: "Test Transaction",
       image: ``,
       handler: (response) => {
@@ -252,11 +251,11 @@ const SubscribeTournament = ({ open, handleClose, getUser }) => {
     };
     // if (totalAmount > 0) {
     //   options = {
-    //     key: urlConsts.paymentKeyId, // ID from razor pay account
+    //     key: process.env.REACT_APP_RAZORPAY_PAYMENT_KEY_ID, // ID from razor pay account
     //     amount: totalAmount * 100, // total amount to pay
     //     // amount: totalAmount * 100, // total amount to pay
     //     currency: "INR",
-    //     name: urlConsts.caller,
+    //     name: process.env.REACT_APP_CALLER,
     //     description: "Test Transaction",
     //     image: ``,
     //     handler: (response) => {

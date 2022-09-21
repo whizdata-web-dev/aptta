@@ -6,7 +6,6 @@ import DialogTitle from "@mui/material/DialogTitle";
 import { Divider } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import RankingCard from "./RankingCard";
-import { urlConsts } from "../../../assets/utils/RequestData";
 import FetchData from "../../../assets/utils/FetchData";
 
 export default function RankingDialog({ eventName, open, handleClose }) {
@@ -40,10 +39,10 @@ export default function RankingDialog({ eventName, open, handleClose }) {
     method: "POST",
     url: "fetchRankData",
     payload: {
-      caller: urlConsts.caller,
-      sportID: urlConsts.sportID,
+      caller: process.env.REACT_APP_CALLER,
+      sportID: process.env.REACT_APP_SPORT_ID,
       eventName: eventName,
-      filterData: urlConsts.filterData,
+      filterData: process.env.REACT_APP_USER_ID,
     },
     pathname: eventName,
   });

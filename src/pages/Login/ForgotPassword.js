@@ -4,7 +4,7 @@ The user is validated with email address - OTP is sent to email
 On validation player is allowed to create new Password
 */
 import React, { useState } from "react";
-import { RequestData, urlConsts } from "../../assets/utils/RequestData";
+import { RequestData } from "../../assets/utils/RequestData";
 import OtpInput from "react-otp-input";
 import { Box, Button, CardHeader, TextField, Typography } from "@mui/material";
 import Avatar from "@mui/material/Avatar";
@@ -79,7 +79,7 @@ export default function ResetPassword(props) {
     // Calling HTTP method by passing Api Type and Api URL
     await RequestData(
       "GET",
-      `otpForgotPassword?caller=${urlConsts.caller}&apiKey=${urlConsts.apiKey}&emailId=${resetPwdValues.email}`
+      `otpForgotPassword?caller=${process.env.REACT_APP_CALLER}&apiKey=${process.env.REACT_APP_API_KEY}&emailId=${resetPwdValues.email}`
     )
       // Getting the Response object which holds the data of Previous tournaments
       .then((response) => {
@@ -112,7 +112,7 @@ export default function ResetPassword(props) {
   const getPasswordResetValidation = async () => {
     let content = {
       //Constant declared in HTTP method
-      caller: urlConsts.caller,
+      caller: process.env.REACT_APP_CALLER,
       // parameters sent as object to HTTP method.
       // email address password and verification code is taken from state
       userId: resetPwdValues.email,

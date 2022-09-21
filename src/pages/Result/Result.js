@@ -2,14 +2,13 @@ import { Box, FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import FetchData from "../../assets/utils/FetchData";
 import LoadingComponent from "../../assets/utils/LoadingComponent";
-import { urlConsts } from "../../assets/utils/RequestData";
 import CardStats from "../../components/card/component/CardStats";
 import DrawTable from "./components/DrawTable";
 
 const Result = () => {
   const { data } = FetchData({
     method: "GET",
-    url: `PastTournamentsOnApiKey?caller=${urlConsts.caller}&apiKey=${urlConsts.apiKey}&userId=${urlConsts.filterData}`,
+    url: `PastTournamentsOnApiKey?caller=${process.env.REACT_APP_CALLER}&apiKey=${process.env.REACT_APP_API_KEY}&userId=${process.env.REACT_APP_USER_ID}`,
     pathname: "result",
   });
 

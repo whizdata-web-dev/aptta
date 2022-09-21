@@ -3,7 +3,7 @@ Payment gateway using Razorpay
 */
 import React, { useState } from "react";
 import useRazorpay from "react-razorpay";
-import { RequestData, urlConsts } from "../../assets/utils/RequestData";
+import { RequestData } from "../../assets/utils/RequestData";
 
 const Payment = (props) => {
   const [message, setMessage] = useState("");
@@ -17,7 +17,7 @@ const Payment = (props) => {
   const registerPlayer = async (transactionId) => {
     //parameters passed as object to HTTP method POST
     let content = {
-      caller: urlConsts.caller,
+      caller: process.env.REACT_APP_CALLER,
       userName: props.playerDetails && props.playerDetails.userName,
       verificationCode:
         props.playerDetails && props.playerDetails.verificationCode,
@@ -27,11 +27,11 @@ const Payment = (props) => {
       clubNameId: "",
       regOverride: true,
       transactionID: transactionId, // this is generated on succesfull transaction
-      transactionAmount: urlConsts.amountLabel,
-      approvalCode: urlConsts.caller,
+      transactionAmount: process.env.REACT_APP_DEFAULT_AMOUNT_LABEL,
+      approvalCode: process.env.REACT_APP_CALLER,
       role: "Player",
       academy: "None",
-      associationId: urlConsts.filterData,
+      associationId: process.env.REACT_APP_ASSOCIATION_ID,
       phoneNumber: props.playerDetails && props.playerDetails.phoneNumber,
       dob: props.playerDetails && props.playerDetails.dob,
     };
@@ -60,10 +60,10 @@ const Payment = (props) => {
   // Payment gateway at the time of registration
   const handleRegPayment = async () => {
     const options = {
-      key: urlConsts.paymentKeyId, // ID from razor pay account
-      amount: urlConsts.amount, //Constant amount declared in HTTP method
+      key: process.env.REACT_APP_RAZORPAY_PAYMENT_KEY_ID, // ID from razor pay account
+      amount: process.env.REACT_APP_DEFAULT_AMOUNT, //Constant amount declared in HTTP method
       currency: "INR",
-      name: urlConsts.caller,
+      name: process.env.REACT_APP_CALLER,
       description: "Test Transaction",
       image: "https://example.com/your_logo",
       handler: (response) => {

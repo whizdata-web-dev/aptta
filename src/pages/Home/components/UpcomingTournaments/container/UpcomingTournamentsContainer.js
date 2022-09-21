@@ -1,7 +1,6 @@
 import React from "react";
 import { Box } from "@mui/material";
 import FetchData from "../../../../../assets/utils/FetchData";
-import { urlConsts } from "../../../../../assets/utils/RequestData";
 import UpcomingTournamentsComponent from "../components/UpcomingTournamentsComponent";
 import { useLoginContext } from "../../../../../assets/utils/UserLoginContext";
 import { handleTournamentId } from "../../../../../assets/utils/UserLoginContext";
@@ -17,7 +16,7 @@ export default function UpcomingTournamentsContainer() {
 
   const { data, loading } = FetchData({
     method: "GET",
-    url: `UpcomingTournamentsOnApiKey?caller=${urlConsts.caller}&apiKey=${urlConsts.apiKey}&userId=${urlConsts.filterData}`,
+    url: `UpcomingTournamentsOnApiKey?caller=${process.env.REACT_APP_CALLER}&apiKey=${process.env.REACT_APP_API_KEY}&userId=${process.env.REACT_APP_USER_ID}`,
   });
 
   const [tournamentData, setTournamentData] = React.useState([]);

@@ -4,7 +4,7 @@ import Tab from "@mui/material/Tab";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import DrawResult from "./DrawResult";
-import { RequestData, urlConsts } from "../../../assets/utils/RequestData";
+import { RequestData } from "../../../assets/utils/RequestData";
 import { Card, CardContent, Divider, Typography } from "@mui/material";
 import WinnerCard from "./WinnerCard";
 import notFound from "../../../assets/img/notFound.jpg";
@@ -58,7 +58,7 @@ const Draw = ({ eventName, tournamentId }) => {
     setLoading(true);
 
     let content = {
-      caller: urlConsts.caller,
+      caller: process.env.REACT_APP_CALLER,
       data: {
         tournamentId,
         eventName,

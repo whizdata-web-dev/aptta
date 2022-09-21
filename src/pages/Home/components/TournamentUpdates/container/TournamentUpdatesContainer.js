@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from "react";
 import FetchData from "../../../../../assets/utils/FetchData";
 import TournamentUpdatesComponent from "../components/TournamentUpdatesComponent";
-import { urlConsts } from "../../../../../assets/utils/RequestData";
 
 const TournamentUpdatesContainer = () => {
   const { data } = FetchData({
     method: "GET",
-    url: `PastTournamentsOnApiKey?caller=${urlConsts.caller}&apiKey=${urlConsts.apiKey}&userId=${urlConsts.filterData}`,
+    url: `PastTournamentsOnApiKey?caller=${process.env.REACT_APP_CALLER}&apiKey=${process.env.REACT_APP_API_KEY}&userId=${process.env.REACT_APP_USER_ID}`,
     pathname: "result",
   });
 

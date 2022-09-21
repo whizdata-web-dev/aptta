@@ -5,7 +5,7 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import ProfileImage from "../../../assets/img/team-1-800x800.jpg";
-import { RequestData, urlConsts } from "../../../assets/utils/RequestData";
+import { RequestData } from "../../../assets/utils/RequestData";
 import { useParams } from "react-router";
 
 const PlayerInfo = () => {
@@ -32,7 +32,7 @@ const PlayerInfo = () => {
   //   url: "getListOfTournamentsForStateAndPlayer",
   //   payload: {
   //     caller: "KTTA1",
-  //     apiKey: urlConsts.apiKey,
+  //     apiKey: process.env.REACT_APP_API_KEY,
   //     data: {
   //       eveType: "1",
   //       stateId: "8va5A8N3EKAeKtmeB",
@@ -46,7 +46,7 @@ const PlayerInfo = () => {
     async function getData() {
       await RequestData("POST", "getListOfTournamentsForStateAndPlayer", {
         caller: "KTTA1",
-        apiKey: urlConsts.apiKey,
+        apiKey: process.env.REACT_APP_API_KEY,
         data: {
           eveType: "1",
           stateId: "8va5A8N3EKAeKtmeB",

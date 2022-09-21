@@ -1,7 +1,7 @@
 import { Box, Button, Card, Divider, Typography } from "@mui/material";
 import { useEffect } from "react";
 import { useState } from "react";
-import { RequestData, urlConsts } from "../../../assets/utils/RequestData";
+import { RequestData } from "../../../assets/utils/RequestData";
 import { useLoginContext } from "../../../assets/utils/UserLoginContext";
 import EntriesTable from "./EntriesTable";
 import useRazorpay from "react-razorpay";
@@ -28,7 +28,7 @@ const GiveEntriesComponent = ({ tournamentData }) => {
   const getSubscribeTournamentList = async () => {
     await RequestData(
       "GET",
-      `eventListUnderTourn?caller=${urlConsts.caller}&apiKey=${urlConsts.apiKey}&tournamentId=${tournamentData.tournamentList[0].tournamentId}&userId=${getUser.userId}`
+      `eventListUnderTourn?caller=${process.env.REACT_APP_CALLER}&apiKey=${process.env.REACT_APP_API_KEY}&tournamentId=${tournamentData.tournamentList[0].tournamentId}&userId=${getUser.userId}`
     )
       .then((response) => {
         if (response && response.result) {
@@ -81,9 +81,8 @@ const GiveEntriesComponent = ({ tournamentData }) => {
           .id
     );
 
-    
     let content = {
-      caller: urlConsts.caller,
+      caller: process.env.REACT_APP_CALLER,
       data: {
         userId: getUser.userId,
         tournamentId: handleTournamentId.getTournId(),
@@ -120,7 +119,7 @@ const GiveEntriesComponent = ({ tournamentData }) => {
   const handlePayment = async () => {
     let options = {};
     options = {
-      key: urlConsts.paymentKeyId, // ID from razor pay account
+      key: process.env.REACT_APP_RAZORPAY_PAYMENT_KEY_ID, // ID from razor pay account
       amount: 100, // total amount to pay
       // amount: invoiceTotal * 100, // total amount to pay
       currency: "INR",

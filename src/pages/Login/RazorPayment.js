@@ -3,7 +3,7 @@ Payment gateway using Razorpay
 */
 import React, { useState } from "react";
 import useRazorpay from "react-razorpay";
-import { RequestData, urlConsts } from "../../assets/utils/RequestData";
+import { RequestData } from "../../assets/utils/RequestData";
 
 const RazorPayment = (props) => {
   const [message, setMessage] = useState("");
@@ -17,7 +17,7 @@ const RazorPayment = (props) => {
   const registerPlayer = async (transactionId) => {
     //parameters passed as object to HTTP method POST
     let content = {
-      caller: urlConsts.caller,
+      caller: process.env.REACT_APP_CALLER,
       userName: props.userName,
       password: props.password,
       verificationCode: props.OTP,
@@ -25,11 +25,11 @@ const RazorPayment = (props) => {
       clubNameId: "",
       regOverride: true,
       transactionID: transactionId, // this is generated on succesfull transaction
-      transactionAmount: urlConsts.amountLabel,
-      approvalCode: urlConsts.caller,
+      transactionAmount: process.env.REACT_APP_DEFAULT_AMOUNT_LABEL,
+      approvalCode: process.env.REACT_APP_CALLER,
       role: "Player",
       academy: "None",
-      associationId: urlConsts.filterData,
+      associationId: process.env.REACT_APP_ASSOCIATION_ID,
       phoneNumber: props.phoneNumber,
       dob: props.dob,
     };
@@ -57,11 +57,11 @@ const RazorPayment = (props) => {
   // Player details is passed as object
   const renewPayment = async (player) => {
     const options = {
-      key: urlConsts.paymentKeyId, // payment key declared in HTTP method
+      key: process.env.REACT_APP_RAZORPAY_PAYMENT_KEY_ID, // payment key declared in HTTP method
       amount: "100", //Constant amount declared in HTTP method
-      // amount: urlConsts.amount, //Constant amount declared in HTTP method
+      // amount: process.env.REACT_APP_DEFAULT_AMOUNT, //Constant amount declared in HTTP method
       currency: "INR",
-      name: urlConsts.caller, // caller id declared in HTTP method
+      name: process.env.REACT_APP_CALLER, // caller id declared in HTTP method
       description: "Test Transaction",
       image: "https://example.com/your_logo",
       handler: (response) => {
@@ -99,11 +99,11 @@ const RazorPayment = (props) => {
   // Payment gateway at the time of registration
   const handleRegPayment = async () => {
     const options = {
-      key: urlConsts.paymentKeyId, // ID from razor pay account
+      key: process.env.REACT_APP_RAZORPAY_PAYMENT_KEY_ID, // ID from razor pay account
       amount: "100", //Constant amount declared in HTTP method
       // amount: props.amount, //Constant amount declared in HTTP method
       currency: "INR",
-      name: urlConsts.caller,
+      name: process.env.REACT_APP_CALLER,
       description: "Test Transaction",
       image: "https://example.com/your_logo",
       handler: (response) => {

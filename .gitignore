@@ -3,3 +3,7 @@ build
 build_development
 build_production
 package-lock.json
+
+.env
+.env.development
+.env.production

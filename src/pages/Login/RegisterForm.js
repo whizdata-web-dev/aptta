@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { RequestData, urlConsts } from "../../assets/utils/RequestData";
+import { RequestData } from "../../assets/utils/RequestData";
 // import "./login/LoginStyles.css";
 import Password from "./Password";
 import {
@@ -65,7 +65,7 @@ const RegisterForm = ({
     // Calling HTTP method by passing Api Type and Api URL
     await RequestData(
       "GET",
-      `registerOtp?caller=${urlConsts.caller}&apiKey=${urlConsts.apiKey}&emailId=${email}`
+      `registerOtp?caller=${process.env.REACT_APP_CALLER}&apiKey=${process.env.REACT_APP_API_KEY}&emailId=${email}`
     )
       // Getting the Response object which holds the data of registration
       .then((response) => {
@@ -222,7 +222,7 @@ const RegisterForm = ({
                   className='textWidth'
                 />
               </Grid>
-              <Grid item xs={12} sm={12} md={12} sx={12}>
+              <Grid item xs={12} sm={12} md={12}>
                 <TextField
                   required
                   id='dob'

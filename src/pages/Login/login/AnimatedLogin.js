@@ -4,7 +4,7 @@ import useRazorpay from "react-razorpay";
 import "./LoginStyles.css";
 import Register from "../Register";
 import { useHistory, useLocation } from "react-router-dom";
-import { RequestData, urlConsts } from "../../../assets/utils/RequestData";
+import { RequestData } from "../../../assets/utils/RequestData";
 import ForgotPassword from "../ForgotPassword";
 import {
   useLoginContext,
@@ -41,7 +41,10 @@ const AnimatedLogin = () => {
 
   useEffect(() => {
     // if (getUser) window.location.href = "https://www.aptabletennis.org/home";
-    if (getUser) history.push("/");
+    if (getUser) {
+      history.push("/");
+      document.getElementById("home").click();
+    }
   }, []); // eslint-disable-line
 
   // This is to call razorpay in case of payment renewal
@@ -49,10 +52,10 @@ const AnimatedLogin = () => {
   // Player details is passed as object
   const renewPayment = async (player) => {
     const options = {
-      key: urlConsts.paymentKeyId, // payment key declared in HTTP method
-      amount: urlConsts.amount, //Constant amount declared in HTTP method
+      key: process.env.REACT_APP_RAZORPAY_PAYMENT_KEY_ID, // payment key declared in HTTP method
+      amount: process.env.REACT_APP_DEFAULT_AMOUNT, //Constant amount declared in HTTP method
       currency: "INR",
-      name: urlConsts.caller, // caller id declared in HTTP method
+      name: process.env.REACT_APP_CALLER, // caller id declared in HTTP method
       description: "Test Transaction",
       image: "https://example.com/your_logo",
       handler: (response) => {
@@ -115,13 +118,13 @@ const AnimatedLogin = () => {
   const renewPlayer = async (player, transactionId) => {
     //parameters passed as object to HTTP method POST
     let content = {
-      caller: urlConsts.caller,
+      caller: process.env.REACT_APP_CALLER,
       data: {
         userId: player.userId,
-        associationId: urlConsts.filterData,
-        approvalCode: urlConsts.caller,
+        associationId: process.env.REACT_APP_ASSOCIATION_ID,
+        approvalCode: process.env.REACT_APP_CALLER,
         transactionID: transactionId,
-        transactionAmount: urlConsts.amountLabel,
+        transactionAmount: process.env.REACT_APP_DEFAULT_AMOUNT_LABEL,
       },
     };
     // Calling HTTP method by passing Api Type and Api URL and object params
@@ -161,13 +164,13 @@ const AnimatedLogin = () => {
     // and assigning all parameters as object and passing to POST api
     const content = {
       //Constant declared in HTTP method
-      caller: urlConsts.caller,
+      caller: process.env.REACT_APP_CALLER,
       userName: loginValues.email,
       userPassword: loginValues.password,
       emailOrPhoneFlag: "1",
       loginRole: "Player",
       paymentValid: "yes",
-      associationId: urlConsts.filterData,
+      associationId: process.env.REACT_APP_ASSOCIATION_ID,
     };
     //Calling POST api for getting Player data
     await RequestData("POST", "playerUserLoginUnderAssoc", content)
@@ -186,6 +189,7 @@ const AnimatedLogin = () => {
           }
           if (response.result._id) {
             history.push("/");
+            document.getElementById("home").click();
           }
         } else {
           setLoginValue({

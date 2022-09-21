@@ -1,6 +1,6 @@
 import { Box } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import { RequestData, urlConsts } from "../../../assets/utils/RequestData";
+import { RequestData } from "../../../assets/utils/RequestData";
 import ViewEntriesComponent from "../component/ViewEntriesComponent";
 
 const ViewEntriesContainer = ({ data }) => {
@@ -35,7 +35,7 @@ const ViewEntriesContainer = ({ data }) => {
     async function getData() {
       await RequestData(
         "GET",
-        `listOfEntries?caller=${urlConsts.caller}&apiKey=${urlConsts.apiKey}&tournamentId=${data.tournamentList[0].tournamentId}&eventId=${eventId}`
+        `listOfEntries?caller=${process.env.REACT_APP_CALLER}&apiKey=${process.env.REACT_APP_API_KEY}&tournamentId=${data.tournamentList[0].tournamentId}&eventId=${eventId}`
       )
         .then((response) => {
           if (response && response.result) {

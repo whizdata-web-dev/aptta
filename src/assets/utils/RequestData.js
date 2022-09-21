@@ -27,14 +27,14 @@ export const urlConsts = {
 export const RequestData = async (httpMethodType, apiURL, content) => {
   if (httpMethodType === "POST") {
     // Constant apikey for POST method
-    Object.assign(content, { apiKey: urlConsts.apiKey });
+    Object.assign(content, { apiKey: process.env.REACT_APP_API_KEY });
   }
   // Api call
   return axios({
     //Assigning header and method type
     headers: urlConsts.headers,
     method: httpMethodType,
-    url: urlConsts.baseURL + apiURL,
+    url: process.env.REACT_APP_BASE_URL + apiURL,
 
     // assigning data for POST method
     data: httpMethodType === "GET" ? undefined : content,

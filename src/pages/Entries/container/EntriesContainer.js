@@ -1,7 +1,6 @@
 import { Box } from "@mui/material";
 import { useEffect } from "react";
 import FetchData from "../../../assets/utils/FetchData";
-import { urlConsts } from "../../../assets/utils/RequestData";
 import EntriesComponent from "../component/EntriesComponent";
 import { useLoginContext } from "../../../assets/utils/UserLoginContext";
 import { useHistory } from "react-router-dom";
@@ -14,7 +13,7 @@ const EntriesContainer = () => {
 
   const { data } = FetchData({
     method: "GET",
-    url: `UpcomingTournamentsOnApiKey?caller=${urlConsts.caller}&apiKey=${urlConsts.apiKey}&userId=${urlConsts.filterData}`,
+    url: `UpcomingTournamentsOnApiKey?caller=${process.env.REACT_APP_CALLER}&apiKey=${process.env.REACT_APP_API_KEY}&userId=${process.env.REACT_APP_USER_ID}`,
   });
 
   useEffect(() => {
