@@ -1,5 +1,5 @@
-import { Alert, Box, Collapse, IconButton } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import { Box } from "@mui/material";
+import React from "react";
 import CarouselContainer from "../../components/carousel/container/CarouselContainer";
 import ChartContainer from "../../components/chart/container/ChartContainer";
 import { ChartContainerModel } from "../../components/chart/model/ChartContainerModel";
@@ -8,116 +8,10 @@ import TournamentUpdatesContainer from "./components/TournamentUpdates/container
 import UpcomingTournamentsContainer from "./components/UpcomingTournaments/container/UpcomingTournamentsContainer";
 import backgroundImage from "../../assets/img/home_bg.jpg";
 
-import CloseIcon from "@mui/icons-material/Close";
-
-import { useLocation } from "react-router-dom";
-
 const Home = () => {
-  const [openError, setOpenError] = useState(false);
-  const [openSuccess, setOpenSuccess] = useState(false);
-
-  const errorMessage = localStorage.getItem("erMsg");
-  const successMessage = localStorage.getItem("sMsg");
-  const location = useLocation();
-
-  useEffect(() => {
-    if (errorMessage) {
-      setOpenError(true);
-      setTimeout(() => {
-        setOpenError(false);
-        localStorage.removeItem("erMsg");
-      }, 3000);
-    }
-  }, [errorMessage]);
-
-  useEffect(() => {
-    if (successMessage) {
-      setOpenSuccess(true);
-      setTimeout(() => {
-        setOpenSuccess(false);
-        localStorage.removeItem("sMsg");
-      }, 3000);
-    }
-  }, [successMessage]);
-
-  useEffect(() => {
-    setTimeout(() => {
-      if (location.pathname.split("/")[1] === "entries") {
-      } else if (location.pathname.split("/")[1] !== "login") {
-        setOpenError(false);
-        setOpenSuccess(false);
-      } else {
-      }
-    }, 500);
-  }, [location.pathname]);
-
   return (
     <>
       {/* add snackbar to display error message if not logged in before giving entry */}
-      <Box
-        sx={{
-          paddingBlock: "2rem 0rem",
-          display: errorMessage ? "flex" : "none",
-          justifyContent: "center",
-        }}
-      >
-        <Collapse in={openError}>
-          <Alert
-            severity='warning'
-            sx={{
-              width: "fit-content",
-              marginInline: "auto",
-              display: errorMessage ? "flex" : "none",
-            }}
-            action={
-              <IconButton
-                aria-label='close'
-                color='inherit'
-                size='small'
-                onClick={() => {
-                  setOpenError(false);
-                }}
-              >
-                <CloseIcon fontSize='inherit' />
-              </IconButton>
-            }
-          >
-            {errorMessage}
-          </Alert>
-        </Collapse>
-      </Box>
-      <Box
-        sx={{
-          paddingBlock: "2rem 0rem",
-          display: successMessage ? "flex" : "none",
-          justifyContent: "center",
-        }}
-      >
-        <Collapse in={openSuccess}>
-          <Alert
-            severity='success'
-            sx={{
-              width: "fit-content",
-              marginInline: "auto",
-              display: successMessage ? "flex" : "none",
-            }}
-            action={
-              <IconButton
-                aria-label='close'
-                color='inherit'
-                size='small'
-                onClick={() => {
-                  setOpenSuccess(false);
-                }}
-              >
-                <CloseIcon fontSize='inherit' />
-              </IconButton>
-            }
-          >
-            {successMessage}
-          </Alert>
-        </Collapse>
-      </Box>
       <Box
         className='relative md:pt-32'
         sx={{

@@ -3,7 +3,7 @@ import "./App.css";
 import Footer from "./components/footer/Footer";
 import { Switch, Route, Redirect } from "react-router-dom";
 import Home from "./pages/Home/Home";
-import { Alert, Box, Collapse, IconButton } from "@mui/material";
+import { Box } from "@mui/material";
 import Navbar from "./components/navbar/Navbar";
 import About from "./pages/About/About";
 import Players from "./pages/Players/Players";

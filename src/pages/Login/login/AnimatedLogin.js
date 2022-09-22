@@ -11,8 +11,6 @@ import {
   handleTournamentId,
 } from "../../../assets/utils/UserLoginContext";
 import LoadingComponent from "../../../assets/utils/LoadingComponent";
-import CloseIcon from "@mui/icons-material/Close";
-import { Alert, Collapse, IconButton } from "@mui/material";
 
 const AnimatedLogin = () => {
   const location = useLocation();
@@ -195,6 +193,7 @@ const AnimatedLogin = () => {
           setLoginValue({
             errorMessage: "Something went wrong! Please try again later.",
           });
+          setWaiting(false);
         }
       })
       .catch((er) => {
@@ -224,6 +223,7 @@ const AnimatedLogin = () => {
     // if pattern mismatch then button animation and error message is displayed to user.
     !pattern.test(loginValues.email)
       ? setLoginValue({
+          ...loginValues,
           error: "emailError",
           errorMessage: "Invalid Email Address!",
         })
@@ -237,6 +237,8 @@ const AnimatedLogin = () => {
         })
       : // if both email id and password are valid entries then calling the api method
         playerLogin(); // calling Api
+
+    setWaiting(false);
   };
 
   // on click of forgot password changing the state
@@ -254,112 +256,9 @@ const AnimatedLogin = () => {
     });
   };
 
-  const [openError, setOpenError] = useState(false);
-  const [openSuccess, setOpenSuccess] = useState(false);
-
-  const errorMessage = localStorage.getItem("erMsg");
-  const successMessage = localStorage.getItem("sMsg");
-
-  useEffect(() => {
-    if (errorMessage) {
-      setOpenError(true);
-      setTimeout(() => {
-        setOpenError(false);
-        localStorage.removeItem("erMsg");
-      }, 3000);
-    }
-  }, [errorMessage]);
-
-  useEffect(() => {
-    if (successMessage) {
-      setOpenSuccess(true);
-      setTimeout(() => {
-        setOpenSuccess(false);
-        localStorage.removeItem("sMsg");
-      }, 3000);
-    }
-  }, [successMessage]);
-
-  useEffect(() => {
-    setTimeout(() => {
-      if (location.pathname.split("/")[1] === "entries") {
-      } else if (location.pathname.split("/")[1] !== "login") {
-        setOpenError(false);
-        setOpenSuccess(false);
-      } else {
-      }
-    }, 500);
-  }, [location.pathname]);
-
   return (
     <Box>
       <Box className='loginroot pt-16'>
-        <Box sx={{ margin: "-1rem 0 1rem 0" }}>
-          <Box
-            sx={{
-              paddingBlock: "2rem 0rem",
-              display: errorMessage ? "flex" : "none",
-              justifyContent: "center",
-            }}
-          >
-            <Collapse in={openError}>
-              <Alert
-                severity='warning'
-                sx={{
-                  width: "fit-content",
-                  marginInline: "auto",
-                  display: errorMessage ? "flex" : "none",
-                }}
-                action={
-                  <IconButton
-                    aria-label='close'
-                    color='inherit'
-                    size='small'
-                    onClick={() => {
-                      setOpenError(false);
-                    }}
-                  >
-                    <CloseIcon fontSize='inherit' />
-                  </IconButton>
-                }
-              >
-                {errorMessage}
-              </Alert>
-            </Collapse>
-          </Box>
-          <Box
-            sx={{
-              paddingBlock: "2rem 0rem",
-              display: successMessage ? "flex" : "none",
-              justifyContent: "center",
-            }}
-          >
-            <Collapse in={openSuccess}>
-              <Alert
-                severity='success'
-                sx={{
-                  width: "fit-content",
-                  marginInline: "auto",
-                  display: successMessage ? "flex" : "none",
-                }}
-                action={
-                  <IconButton
-                    aria-label='close'
-                    color='inherit'
-                    size='small'
-                    onClick={() => {
-                      setOpenSuccess(false);
-                    }}
-                  >
-                    <CloseIcon fontSize='inherit' />
-                  </IconButton>
-                }
-              >
-                {successMessage}
-              </Alert>
-            </Collapse>
-          </Box>
-        </Box>
         <Dialog open={waiting}>
           <LoadingComponent />
         </Dialog>
@@ -367,7 +266,10 @@ const AnimatedLogin = () => {
           <Box
             className={activeClass}
             id='container'
-            sx={{ maxWidth: { xs: "400px", md: "100%" } }}
+            sx={{
+              maxWidth: { xs: "450px", md: "100%" },
+              minWidth: { md: "850px" },
+            }}
           >
             <Box className='form-container sign-up-container'>
               <Box

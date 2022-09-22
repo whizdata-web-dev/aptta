@@ -8,6 +8,8 @@ import useRazorpay from "react-razorpay";
 import { handleTournamentId } from "../../../assets/utils/UserLoginContext";
 import CreditCardIcon from "@mui/icons-material/CreditCard";
 
+import subscribedToAll from "../../../assets/img/subscribed_to_all.jpg";
+
 function subtotal(list) {
   return list.map(({ fee }) => parseInt(fee)).reduce((sum, i) => sum + i, 0);
 }
@@ -19,6 +21,7 @@ const GiveEntriesComponent = ({ tournamentData }) => {
   const [tournamentName, setTournamentName] = useState([]);
   const [eventFees, setEventFees] = useState([]);
   const [selected, setSelected] = useState([]);
+  const [isSubscribedToAllEvents, setIsSubscribedToAllEvents] = useState(false);
   const [invoiceSubtotal, setInvoiceSubtotal] = useState(0);
   const Razorpay = useRazorpay();
 
@@ -41,6 +44,26 @@ const GiveEntriesComponent = ({ tournamentData }) => {
               fee: event.prize,
             });
           });
+
+          const eventsInTournament = response?.result?.eventFeeSettings.events;
+          const playableEvents =
+            response?.result?.playerEntries?.subscribedEvents;
+
+          let playerSubscribedEvents = [];
+          eventsInTournament.forEach((event, index) => {
+            if (playableEvents[index] === "1") {
+              playerSubscribedEvents.push(event);
+            }
+          });
+
+          feeList = feeList.filter(
+            (eventData) => !playerSubscribedEvents.includes(eventData.name)
+          );
+
+          if ((feeList = [])) {
+            setIsSubscribedToAllEvents(true);
+          }
+
           setEventFees(feeList);
         } else {
           localStorage.setItem(
@@ -191,48 +214,72 @@ const GiveEntriesComponent = ({ tournamentData }) => {
           recieve an email confirming your entries soon.
         </Typography>
       </Box>
-      <Box sx={{ marginBlock: "1rem 0.5rem" }}>
-        <EntriesTable
-          rows={eventFees}
-          selected={selected}
-          setSelected={setSelected}
-          payment={{
-            invoiceSubtotal,
-            invoiceTotal,
-            dcf,
-          }}
-        />
-      </Box>
-      <Box
-        sx={{
-          marginBlock: "1rem 0.5rem",
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
-        <Button
-          variant='contained'
-          disabled={invoiceSubtotal > 0 ? false : true}
-          onClick={handlePayment}
-          sx={{
-            borderRadius: "0px",
-            minWidth: "320px",
-            background:
-              invoiceSubtotal > 0
-                ? "#332861 !important"
-                : "rgba(0, 0, 0, 0.26)",
-            color:
-              invoiceSubtotal > 0
-                ? "#FFFFFF !important"
-                : "rgba(0, 0, 0, 0.12)",
-          }}
-        >
-          <CreditCardIcon sx={{ marginRight: "0.5rem" }} />
-          Pay Amount
-        </Button>
-      </Box>
+      {isSubscribedToAllEvents ? (
+        <Box sx={{ width: "100%" }}>
+          <Typography
+            fontWeight={"bold"}
+            className='text-2xl'
+            sx={{ textAlign: "center", marginBlock: "1rem 0" }}
+          >
+            Subscribed to all playable events!
+          </Typography>
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <img src={subscribedToAll} alt='...' width={350} />
+          </Box>
+        </Box>
+      ) : (
+        <>
+          <Box sx={{ marginBlock: "1rem 0.5rem" }}>
+            <EntriesTable
+              rows={eventFees}
+              selected={selected}
+              setSelected={setSelected}
+              payment={{
+                invoiceSubtotal,
+                invoiceTotal,
+                dcf,
+              }}
+            />
+          </Box>
+          <Box
+            sx={{
+              marginBlock: "1rem 0.5rem",
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <Button
+              variant='contained'
+              disabled={invoiceSubtotal > 0 ? false : true}
+              onClick={handlePayment}
+              sx={{
+                borderRadius: "0px",
+                minWidth: "320px",
+                background:
+                  invoiceSubtotal > 0
+                    ? "#332861 !important"
+                    : "rgba(0, 0, 0, 0.26)",
+                color:
+                  invoiceSubtotal > 0
+                    ? "#FFFFFF !important"
+                    : "rgba(0, 0, 0, 0.12)",
+              }}
+            >
+              <CreditCardIcon sx={{ marginRight: "0.5rem" }} />
+              Pay Amount
+            </Button>
+          </Box>
+        </>
+      )}
     </Card>
   );
 };
